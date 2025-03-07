@@ -1,6 +1,5 @@
-import 'package:event_planning_ass/utilis/app_colors.dart';
-import 'package:event_planning_ass/utilis/app_style.dart';
 import 'package:flutter/material.dart';
+import 'package:system_alex_univ/core/utils/app_style.dart';
 
 class custom_elevated_button extends StatelessWidget {
   String text;
@@ -34,10 +33,9 @@ class custom_elevated_button extends StatelessWidget {
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
-                  side:
-                      BorderSide(width: 1, color: AppColors.primaryColorLight),
+                  side: BorderSide(width: 1, color: Colors.blue),
                   borderRadius: BorderRadius.circular(16)),
-              backgroundColor: color ?? AppColors.primaryColorLight,
+              backgroundColor: color ?? Colors.blue,
               elevation: 0),
           onPressed: () {
             onButtonClicked();
@@ -54,7 +52,7 @@ class custom_elevated_button extends StatelessWidget {
                 ),
                 Text(
                   text,
-                  style: style ?? AppStyle.Medium16White.copyWith(fontSize: 20),
+                  style: style ?? AppStyle.medium12Black.copyWith(fontSize: 20),
                 ),
               ],
             ),

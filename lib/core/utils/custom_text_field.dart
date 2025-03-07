@@ -1,5 +1,5 @@
-import 'package:event_planning_ass/utilis/app_style.dart';
 import 'package:flutter/material.dart';
+import 'package:system_alex_univ/core/utils/app_style.dart';
 
 class CustomTextField extends StatelessWidget {
   void Function(String)? onChanged;
@@ -72,7 +72,7 @@ class CustomTextField extends StatelessWidget {
             prefixIcon: prefixIcon,
             suffixIcon: suffixxIcon,
             hintText: hintText,
-            hintStyle: hintStyle ?? AppStyle.Medium16grey),
+            hintStyle: hintStyle ?? AppStyle.normal14Grey),
       ),
     );
   }
