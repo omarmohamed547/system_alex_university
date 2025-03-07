@@ -25,4 +25,10 @@ class AppStyle {
 
   static final semibold18White = GoogleFonts.rubik(
       color: Color(0xffF8F8FF), fontSize: 18, fontWeight: FontWeight.w600);
+
+  static final medium16SemiBlack = GoogleFonts.rubik(
+      color: Color(0xff616161), fontSize: 16, fontWeight: FontWeight.w500);
+
+  static final regular14Black = GoogleFonts.rubik(
+      color: Color(0xff616161), fontSize: 14, fontWeight: FontWeight.w400);
 }

@@ -35,7 +35,7 @@ class custom_elevated_button extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   side: BorderSide(width: 1, color: Colors.blue),
                   borderRadius: BorderRadius.circular(16)),
-              backgroundColor: color ?? Colors.blue,
+              backgroundColor: color ?? Color(0xff7EB6FF),
               elevation: 0),
           onPressed: () {
             onButtonClicked();
@@ -52,7 +52,7 @@ class custom_elevated_button extends StatelessWidget {
                 ),
                 Text(
                   text,
-                  style: style ?? AppStyle.medium12Black.copyWith(fontSize: 20),
+                  style: style ?? AppStyle.semibold18White,
                 ),
               ],
             ),
