@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:system_alex_univ/core/utils/app_routes.dart';
 import 'package:system_alex_univ/core/utils/app_style.dart';
 import 'package:system_alex_univ/core/utils/custom_elevated_button.dart';
 
@@ -141,9 +142,14 @@ class LoginScreen extends StatelessWidget {
                     "Remember Me",
                     style: AppStyle.medium12Black,
                   ),
-                  Text(
-                    "Reset Password?",
-                    style: AppStyle.semibold12Blue,
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoutes.resetPassScreen);
+                    },
+                    child: Text(
+                      "Reset Password?",
+                      style: AppStyle.semibold12Blue,
+                    ),
                   ),
                 ],
               ),

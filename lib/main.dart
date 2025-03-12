@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:system_alex_univ/core/utils/app_routes.dart';
 import 'package:system_alex_univ/core/utils/app_style.dart';
 import 'package:system_alex_univ/feature/StartUP_screen.dart';
+import 'package:system_alex_univ/feature/auth/forgetPassword/forget_passordScreen.dart';
 import 'package:system_alex_univ/feature/auth/login/login_screen.dart';
 
 void main() {
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
           routes: {
             AppRoutes.loginScreen: (context) => LoginScreen(),
             AppRoutes.startUpScreen: (context) => StartUpScreen(),
+            AppRoutes.resetPassScreen: (context) => ForgetPassordscreen(),
           },
         );
       },

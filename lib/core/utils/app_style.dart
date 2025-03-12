@@ -31,4 +31,7 @@ class AppStyle {
 
   static final regular14Black = GoogleFonts.rubik(
       color: Color(0xff616161), fontSize: 14, fontWeight: FontWeight.w400);
+
+  static final medium14Blue = GoogleFonts.rubik(
+      color: Color(0xff7EB6FF), fontSize: 14, fontWeight: FontWeight.w500);
 }
