@@ -1,3 +1,3 @@
 class ApiConstant {
-  static String baseurl = 'https://ecommerce.routemisr.com';
+  static String baseurl = 'https://college-system-two.vercel.app';
 }

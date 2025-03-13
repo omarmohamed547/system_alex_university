@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:system_alex_univ/core/utils/app_routes.dart';
 import 'package:system_alex_univ/core/utils/app_style.dart';
+import 'package:system_alex_univ/core/utils/cache/shared_pref.dart';
+import 'package:system_alex_univ/core/utils/di/di.dart';
+import 'package:system_alex_univ/core/utils/observer.dart';
 import 'package:system_alex_univ/feature/StartUP_screen.dart';
 import 'package:system_alex_univ/feature/auth/forgetPassword/forget_passordScreen.dart';
+import 'package:system_alex_univ/feature/auth/login/cubit/login_viewModel.dart';
 import 'package:system_alex_univ/feature/auth/login/login_screen.dart';
+import 'package:system_alex_univ/feature/home/homes_screen.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Ensures Flutter is fully initialized
+  configureDependencies();
+
+  Bloc.observer = MyBlocObserver();
+  await SharedPrefernceUtilis.init();
+
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider(create: (context) => getIt<LoginViewmodel>()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -27,6 +42,7 @@ class MyApp extends StatelessWidget {
             AppRoutes.loginScreen: (context) => LoginScreen(),
             AppRoutes.startUpScreen: (context) => StartUpScreen(),
             AppRoutes.resetPassScreen: (context) => ForgetPassordscreen(),
+            AppRoutes.homeScreen: (context) => HomesScreen(),
           },
         );
       },

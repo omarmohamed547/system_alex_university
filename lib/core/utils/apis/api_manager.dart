@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:e_commerce_app/core/utils/apis/api_constant.dart';
-import 'package:e_commerce_app/core/utils/apis/api_endpoints.dart';
 import 'package:injectable/injectable.dart';
+import 'package:system_alex_univ/core/utils/apis/api_constant.dart';
 
 @singleton
 class ApiManager {
