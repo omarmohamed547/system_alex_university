@@ -82,6 +82,7 @@ class LoginScreen extends StatelessWidget {
                         height: 12.h,
                       ),
                       buildTextField(
+                        autofillHints: [AutofillHints.email],
                         context,
                         label: "ID",
                         controller: LoginViewmodel.get(context).emailController,
@@ -91,6 +92,7 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(height: 30.h),
                       buildTextField(context,
                           label: "Password",
+                          autofillHints: [AutofillHints.password],
                           controller:
                               LoginViewmodel.get(context).passwordController,
                           hintText: "Enter your password",

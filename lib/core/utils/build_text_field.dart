@@ -7,6 +7,7 @@ Widget buildTextField(BuildContext context,
     required String hintText,
     required String iconPath,
     required TextEditingController controller,
+    Iterable<String>? autofillHints,
     bool isPassword = false,
     Widget? suffix}) {
   return Padding(
@@ -29,6 +30,8 @@ Widget buildTextField(BuildContext context,
             }
             return null;
           },
+          autofillHints: autofillHints, // For email autofill
+
           decoration: InputDecoration(
             suffixIcon: suffix,
             prefixIcon: Padding(
@@ -40,6 +43,7 @@ Widget buildTextField(BuildContext context,
               ),
             ),
             hintText: hintText,
+
             hintStyle: AppStyle.regular14Black,
             border: UnderlineInputBorder(
               borderSide: BorderSide(color: Color(0xff616161)),

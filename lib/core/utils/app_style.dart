@@ -34,4 +34,19 @@ class AppStyle {
 
   static final medium14Blue = GoogleFonts.rubik(
       color: Color(0xff7EB6FF), fontSize: 14, fontWeight: FontWeight.w500);
+
+  static final regular24PacificoBlack = GoogleFonts.pacifico(
+      color: Color(0xff000000), fontSize: 24, fontWeight: FontWeight.w400);
+
+  static final text16Inter = GoogleFonts.inter(
+      color: Color(0xff324054), fontSize: 16, fontWeight: FontWeight.w500);
+
+  static final black24Inter = GoogleFonts.inter(
+      color: Color(0xff000000), fontSize: 24, fontWeight: FontWeight.w500);
+
+  static final white16Inter = GoogleFonts.inter(
+      color: Color(0xffFFFFFF), fontSize: 16, fontWeight: FontWeight.w600);
+
+  static final grey10Inter = GoogleFonts.inter(
+      color: Color(0xff5B5B5B), fontSize: 10, fontWeight: FontWeight.w200);
 }
