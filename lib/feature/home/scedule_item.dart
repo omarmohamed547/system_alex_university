@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:system_alex_univ/core/utils/app_style.dart';
+import 'package:system_alex_univ/domain/entites/GetCourses_response_Entity.dart';
 
 class ScheduleItem extends StatelessWidget {
-  const ScheduleItem({
-    super.key,
-  });
+  SessionEntity sessionEntity;
+  final String courseName; // Add course name
+
+  ScheduleItem(
+      {super.key, required this.sessionEntity, required this.courseName});
 
   @override
   Widget build(BuildContext context) {
@@ -24,34 +27,39 @@ class ScheduleItem extends StatelessWidget {
             Container(
               width: 105.w,
               height: 37.h,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(27)),
               child: Center(
                 child: Text(
-                  "08:30 AM",
+                  sessionEntity.startTime.toString(),
                   style: AppStyle.white16Inter
                       .copyWith(color: Color(0xff000000), fontSize: 14),
                 ),
               ),
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(27)),
             ),
             SizedBox(
-              width: 105.w, // Match the width of the container
+              width: 115.w, // Match the width of the container
               child: Text(
-                "Operating System Section",
+                "$courseName",
                 style: AppStyle.white16Inter,
                 textAlign: TextAlign.center, // Centers the text
               ),
             ),
             SizedBox(
-              width: 105.w, // Match the width of the container
+              width: 108.w, // Match the width of the container
               child: Text(
-                "(425)",
-                style: AppStyle.white16Inter.copyWith(color: Color(0xff000000)),
+                "${sessionEntity.type}",
+                style: AppStyle.white16Inter,
                 textAlign: TextAlign.center, // Centers the text
               ),
             ),
             SizedBox(
-              height: 15.h,
+              width: 108.w, // Match the width of the container
+              child: Text(
+                "(${sessionEntity.room})",
+                style: AppStyle.white16Inter.copyWith(color: Color(0xff000000)),
+                textAlign: TextAlign.center, // Centers the text
+              ),
             ),
           ],
         ),

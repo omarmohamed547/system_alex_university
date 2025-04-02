@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:system_alex_univ/core/utils/app_routes.dart';
 import 'package:system_alex_univ/core/utils/app_style.dart';
+import 'package:system_alex_univ/feature/home/homes_screen.dart';
 
 class HomeDrawer extends StatelessWidget {
   final VoidCallback onClose;
@@ -52,16 +54,54 @@ class HomeDrawer extends StatelessWidget {
                     ),
 
                     // Drawer Menu Items
-                    DrawerItem(icon: Icons.home, text: "Home"),
-                    DrawerItem(icon: Icons.event, text: "Attendance"),
-                    DrawerItem(icon: Icons.assessment, text: "Performance"),
                     DrawerItem(
-                        icon: Icons.app_registration, text: "Registration"),
+                      icon: Icons.home,
+                      text: "Home",
+                      route: AppRoutes.homeScreen,
+                      context: context,
+                    ),
                     DrawerItem(
-                        icon: Icons.calendar_today, text: "Lecture Table"),
-                    DrawerItem(icon: Icons.school, text: "Exams Table"),
-                    DrawerItem(icon: Icons.chat, text: "Chat-bot"),
-                    DrawerItem(icon: Icons.message, text: "Chat"),
+                      icon: Icons.event,
+                      text: "Attendance",
+                      route: AppRoutes.homeScreen,
+                      context: context,
+                    ),
+                    DrawerItem(
+                      icon: Icons.assessment,
+                      text: "Performance",
+                      route: AppRoutes.homeScreen,
+                      context: context,
+                    ),
+                    DrawerItem(
+                      icon: Icons.app_registration,
+                      text: "Registration",
+                      route: AppRoutes.registirationScreen,
+                      context: context,
+                    ),
+                    DrawerItem(
+                      icon: Icons.calendar_today,
+                      text: "Lecture Table",
+                      route: AppRoutes.homeScreen,
+                      context: context,
+                    ),
+                    DrawerItem(
+                      icon: Icons.school,
+                      text: "Exams Table",
+                      route: AppRoutes.homeScreen,
+                      context: context,
+                    ),
+                    DrawerItem(
+                      icon: Icons.chat,
+                      text: "Chat-bot",
+                      route: AppRoutes.homeScreen,
+                      context: context,
+                    ),
+                    DrawerItem(
+                      icon: Icons.message,
+                      text: "Chat",
+                      route: AppRoutes.homeScreen,
+                      context: context,
+                    ),
                   ],
                 ),
               ),
@@ -98,7 +138,15 @@ class HomeDrawer extends StatelessWidget {
 class DrawerItem extends StatelessWidget {
   final IconData icon;
   final String text;
-  const DrawerItem({super.key, required this.icon, required this.text});
+  final String route;
+  final BuildContext context;
+  DrawerItem({
+    super.key,
+    required this.icon,
+    required this.text,
+    required this.route,
+    required this.context,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +156,15 @@ class DrawerItem extends StatelessWidget {
         text,
         style: AppStyle.text16Inter,
       ),
-      onTap: () {},
+      onTap: () {
+        // Get current route name
+        String? currentRoute = ModalRoute.of(context)?.settings.name;
+
+        // Navigate only if it's a different route
+        if (currentRoute != route) {
+          Navigator.pushNamed(context, route);
+        }
+      },
     );
   }
 }

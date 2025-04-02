@@ -10,7 +10,9 @@ import 'package:system_alex_univ/feature/StartUP_screen.dart';
 import 'package:system_alex_univ/feature/auth/forgetPassword/forget_passordScreen.dart';
 import 'package:system_alex_univ/feature/auth/login/cubit/login_viewModel.dart';
 import 'package:system_alex_univ/feature/auth/login/login_screen.dart';
+import 'package:system_alex_univ/feature/home/cubit/home_view_model.dart';
 import 'package:system_alex_univ/feature/home/homes_screen.dart';
+import 'package:system_alex_univ/feature/registiration/registiration_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding
@@ -22,6 +24,7 @@ void main() async {
 
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: (context) => getIt<LoginViewmodel>()),
+    BlocProvider(create: (context) => getIt<HomeViewModel>()),
   ], child: const MyApp()));
 }
 
@@ -43,6 +46,7 @@ class MyApp extends StatelessWidget {
             AppRoutes.startUpScreen: (context) => StartUpScreen(),
             AppRoutes.resetPassScreen: (context) => ForgetPassordscreen(),
             AppRoutes.homeScreen: (context) => HomesScreen(),
+            AppRoutes.registirationScreen: (context) => RegistrationScreen(),
           },
         );
       },
