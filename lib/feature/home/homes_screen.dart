@@ -33,7 +33,7 @@ class _HomesScreenState extends State<HomesScreen> {
       key: _scaffoldKey, // Set Scaffold key
 
       drawer: SizedBox(
-        width: 256.w,
+        width: 260.w,
         child: Drawer(
           child: HomeDrawer(
             onClose: () {},

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:system_alex_univ/core/utils/app_routes.dart';
 import 'package:system_alex_univ/core/utils/app_style.dart';
-import 'package:system_alex_univ/feature/home/homes_screen.dart';
 
 class HomeDrawer extends StatelessWidget {
   final VoidCallback onClose;
@@ -10,124 +9,89 @@ class HomeDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Drawer(
-        child: Stack(
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Drawer Header
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 24.h),
-                        Text(
-                          "FOURTH YEAR",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                          ),
-                        ),
-                        SizedBox(height: 4.h),
-                        Text(
-                          "Omarmohamed",
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 24.h),
-                          child: Image.asset(
-                            "assets/images/FcdsLogo.png",
-                            height: 72.h,
-                            width: 196.w,
-                          ),
-                        ),
-                      ],
+    return Drawer(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Drawer Header
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 24.h),
+                  Text(
+                    "FOURTH YEAR",
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black54,
                     ),
-
-                    // Drawer Menu Items
-                    DrawerItem(
-                      icon: Icons.home,
-                      text: "Home",
-                      route: AppRoutes.homeScreen,
-                      context: context,
-                    ),
-                    DrawerItem(
-                      icon: Icons.event,
-                      text: "Attendance",
-                      route: AppRoutes.homeScreen,
-                      context: context,
-                    ),
-                    DrawerItem(
-                      icon: Icons.assessment,
-                      text: "Performance",
-                      route: AppRoutes.homeScreen,
-                      context: context,
-                    ),
-                    DrawerItem(
-                      icon: Icons.app_registration,
-                      text: "Registration",
-                      route: AppRoutes.registirationScreen,
-                      context: context,
-                    ),
-                    DrawerItem(
-                      icon: Icons.calendar_today,
-                      text: "Lecture Table",
-                      route: AppRoutes.homeScreen,
-                      context: context,
-                    ),
-                    DrawerItem(
-                      icon: Icons.school,
-                      text: "Exams Table",
-                      route: AppRoutes.homeScreen,
-                      context: context,
-                    ),
-                    DrawerItem(
-                      icon: Icons.chat,
-                      text: "Chat-bot",
-                      route: AppRoutes.homeScreen,
-                      context: context,
-                    ),
-                    DrawerItem(
-                      icon: Icons.message,
-                      text: "Chat",
-                      route: AppRoutes.homeScreen,
-                      context: context,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            // Close Button
-            Positioned(
-              top: 40.h,
-              right: -20.w,
-              child: GestureDetector(
-                onTap: onClose,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.orange,
-                    shape: BoxShape.circle,
                   ),
-                  padding: EdgeInsets.all(8.w),
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                    size: 24.sp,
+                  SizedBox(height: 4.h),
+                  Text(
+                    "Omarmohamed",
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 24.h),
+                    child: Image.asset(
+                      "assets/images/FcdsLogo.png",
+                      height: 72.h,
+                      width: 196.w,
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
+
+              // Drawer Menu Items
+              DrawerItem(
+                icon: Icons.home,
+                text: "Home",
+                route: AppRoutes.homeScreen,
+              ),
+              DrawerItem(
+                icon: Icons.event,
+                text: "Attendance",
+                route: AppRoutes.homeScreen,
+              ),
+              DrawerItem(
+                icon: Icons.assessment,
+                text: "Performance",
+                route: AppRoutes.homeScreen,
+              ),
+              DrawerItem(
+                icon: Icons.app_registration,
+                text: "Registration",
+                route: AppRoutes.registirationScreen,
+              ),
+              DrawerItem(
+                icon: Icons.calendar_today,
+                text: "Lecture Table",
+                route: AppRoutes.lectureTableScreen,
+              ),
+              DrawerItem(
+                icon: Icons.school,
+                text: "Exams Table",
+                route: AppRoutes.homeScreen,
+              ),
+              DrawerItem(
+                icon: Icons.chat,
+                text: "Chat-bot",
+                route: AppRoutes.homeScreen,
+              ),
+              DrawerItem(
+                icon: Icons.message,
+                text: "Chat",
+                route: AppRoutes.homeScreen,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -139,32 +103,44 @@ class DrawerItem extends StatelessWidget {
   final IconData icon;
   final String text;
   final String route;
-  final BuildContext context;
-  DrawerItem({
+
+  const DrawerItem({
     super.key,
     required this.icon,
     required this.text,
     required this.route,
-    required this.context,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.black54),
-      title: Text(
-        text,
-        style: AppStyle.text16Inter,
-      ),
-      onTap: () {
-        // Get current route name
-        String? currentRoute = ModalRoute.of(context)?.settings.name;
+    // Get current route to check if this item is active
+    String? currentRoute = ModalRoute.of(context)?.settings.name;
 
-        // Navigate only if it's a different route
-        if (currentRoute != route) {
-          Navigator.pushNamed(context, route);
-        }
-      },
+    return Container(
+      color: currentRoute == route
+          ? const Color.fromRGBO(193, 220, 255, 1)
+          : Colors.transparent,
+      child: ListTile(
+        leading: Icon(
+          icon,
+          color: currentRoute == route
+              ? Color.fromRGBO(45, 104, 254, 1)
+              : Colors.grey,
+        ),
+        title: Text(
+          text,
+          style: AppStyle.text16Inter.copyWith(
+            color: currentRoute == route
+                ? Color.fromRGBO(45, 104, 254, 1)
+                : Colors.black,
+          ),
+        ),
+        onTap: () {
+          if (currentRoute != route) {
+            Navigator.pushNamed(context, route);
+          }
+        },
+      ),
     );
   }
 }

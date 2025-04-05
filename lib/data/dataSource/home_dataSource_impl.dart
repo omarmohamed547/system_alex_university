@@ -4,8 +4,10 @@ import 'package:system_alex_univ/core/utils/apis/api_endpoints.dart';
 import 'package:system_alex_univ/core/utils/apis/api_manager.dart';
 import 'package:system_alex_univ/core/utils/cache/shared_pref.dart';
 import 'package:system_alex_univ/core/utils/errors/failure.dart';
+import 'package:system_alex_univ/data/models/get_courseBydoctorDm.dart';
 import 'package:system_alex_univ/data/models/get_courses_responseDm.dart';
-import 'package:system_alex_univ/domain/repository/home/home_remoteDataSource.dart';
+import 'package:system_alex_univ/domain/entites/Get_Course_byDoctor_Entity.dart';
+import 'package:system_alex_univ/domain/repository/home_doc/home_remoteDataSource.dart';
 import 'package:either_dart/either.dart';
 
 @Injectable(as: HomeRemotedatasource)
@@ -49,4 +51,38 @@ class HomeDatasourceImpl implements HomeRemotedatasource {
       return Left(NetworkError(errorMessage: "No internet connection"));
     }
   }
+/*
+  @override
+  Future<Either<Failure, GetCoursesByDoctorDm>> getCoursesByDoctor() async {
+    final List<ConnectivityResult> connectivityResult =
+        await (Connectivity().checkConnectivity());
+    if (connectivityResult.contains(ConnectivityResult.mobile) ||
+        connectivityResult.contains(ConnectivityResult.wifi)) {
+      try {
+        var token = SharedPrefernceUtilis.getData('token');
+
+        print("token:$token");
+        var response = await apiManager.getData(
+          apiEndpoints: "${ApiEndpoints.getCoursesendpoint}ByDoctors/11800",
+          headers: {'Authorization': 'Bearer $token'},
+        );
+
+        if (response.statusCode! >= 200 && response.statusCode! < 300) {
+          print("response:$response");
+
+          // ✅ Check if response is a list and parse it properly
+
+          var courseDoctorResponse =
+              GetCoursesByDoctorDm.fromJson(response.data);
+          return Right(courseDoctorResponse);
+        } else {
+          return Left(ServerError(errorMessage: "Failed to fetch courses"));
+        }
+      } catch (e) {
+        return Left(Failure(errorMessage: e.toString()));
+      }
+    } else {
+      return Left(NetworkError(errorMessage: "No internet connection"));
+    }
+  }*/
 }

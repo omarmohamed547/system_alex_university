@@ -4,4 +4,5 @@ class AppRoutes {
   static const String resetPassScreen = 'ResetPasswordScreen';
   static const String homeScreen = 'HomeScreen';
   static const String registirationScreen = 'RegistirationScreen';
+  static const String lectureTableScreen = 'LectureTableScreen';
 }

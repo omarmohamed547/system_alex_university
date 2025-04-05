@@ -39,7 +39,7 @@ class GetCoursesResponseEntity {
 }
 
 class GetCoursesListResponseEntity {
-  final List<GetCoursesResponseDm> courses;
+  final List<GetCoursesResponseEntity> courses;
   GetCoursesListResponseEntity({required this.courses});
 }
 

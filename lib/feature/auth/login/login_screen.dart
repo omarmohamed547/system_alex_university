@@ -34,6 +34,8 @@ class LoginScreen extends StatelessWidget {
               postActionFunc: () {
                 SharedPrefernceUtilis.saveData(
                     'token', state.loginModelEntity.token);
+                SharedPrefernceUtilis.saveData(
+                    'userId', state.loginModelEntity.user!.id);
                 Navigator.pushReplacementNamed(context, AppRoutes.homeScreen);
               },
               message: 'Login Successfully');
