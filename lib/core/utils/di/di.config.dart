@@ -15,14 +15,19 @@ import 'package:injectable/injectable.dart' as _i526;
 import '../../../data/dataSource/auth_dataSource_impl.dart' as _i595;
 import '../../../data/dataSource/home_dataSource_impl.dart' as _i781;
 import '../../../data/dataSource/register_stu_dataSource.dart' as _i11;
+import '../../../data/dataSource/timeTable_dataSource_Impl.dart' as _i1030;
 import '../../../data/repository/auth_repos_impl.dart' as _i870;
 import '../../../data/repository/home_repos_impl.dart' as _i272;
 import '../../../data/repository/register_stu_repos.dart' as _i797;
+import '../../../data/repository/time_table_repos_Impl.dart' as _i993;
 import '../../../domain/repository/auth/auth_remote_dataSource.dart' as _i285;
 import '../../../domain/repository/auth/auth_repos.dart' as _i180;
 import '../../../domain/repository/home_doc/home_remoteDataSource.dart'
     as _i725;
 import '../../../domain/repository/home_doc/home_repos.dart' as _i294;
+import '../../../domain/repository/home_stu/time_table_dataSource.dart'
+    as _i1017;
+import '../../../domain/repository/home_stu/time_table_repos.dart' as _i473;
 import '../../../domain/repository/register_student/registerStu_dataSource.dart'
     as _i235;
 import '../../../domain/repository/register_student/registerStu_repos.dart'
@@ -30,6 +35,7 @@ import '../../../domain/repository/register_student/registerStu_repos.dart'
 import '../../../domain/UseCases/auth_useCase.dart' as _i105;
 import '../../../domain/UseCases/drop_cource_useCase.dart' as _i463;
 import '../../../domain/UseCases/get_courses_useCase.dart' as _i461;
+import '../../../domain/UseCases/get_time_table_useCase.dart' as _i562;
 import '../../../domain/UseCases/getAvliableCourseStudent.dart' as _i1008;
 import '../../../domain/UseCases/register_course_useCase.dart' as _i15;
 import '../../../feature/auth/login/cubit/login_viewModel.dart' as _i1013;
@@ -50,6 +56,8 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     gh.singleton<_i669.ApiManager>(() => _i669.ApiManager());
+    gh.factory<_i1017.TimeTableDatasource>(() =>
+        _i1030.TimetableDatasourceImpl(apiManager: gh<_i669.ApiManager>()));
     gh.factory<_i285.AuthdataSource>(
         () => _i595.AuthDatasourceImpl(apiManager: gh<_i669.ApiManager>()));
     gh.factory<_i725.HomeRemotedatasource>(
@@ -62,10 +70,14 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i105.AuthUsecase(authRepos: gh<_i180.AuthRepos>()));
     gh.factory<_i1013.LoginViewmodel>(
         () => _i1013.LoginViewmodel(loginUseCase: gh<_i105.AuthUsecase>()));
+    gh.factory<_i473.TimeTableRepos>(() => _i993.TimeTableReposImpl(
+        tableDatasource: gh<_i1017.TimeTableDatasource>()));
     gh.factory<_i165.RegisterstudentRepos>(() => _i797.RegisterStuReposimpl(
         registerStuDatasource: gh<_i235.RegistertuDatasource>()));
     gh.factory<_i294.HomeRepos>(() => _i272.HomeReposImpl(
         homeRemotedatasource: gh<_i725.HomeRemotedatasource>()));
+    gh.factory<_i562.GetTimeTableUsecase>(() => _i562.GetTimeTableUsecase(
+        homeStudentRepos: gh<_i473.TimeTableRepos>()));
     gh.factory<_i461.GetCoursesUsecase>(
         () => _i461.GetCoursesUsecase(homeRepos: gh<_i294.HomeRepos>()));
     gh.factory<_i1008.GetavliablecoursestudentUseCase>(() =>
@@ -75,13 +87,15 @@ extension GetItInjectableX on _i174.GetIt {
         registerstudentRepos: gh<_i165.RegisterstudentRepos>()));
     gh.factory<_i463.DropCourceUsecase>(() => _i463.DropCourceUsecase(
         registerstudentRepos: gh<_i165.RegisterstudentRepos>()));
-    gh.factory<_i658.HomeViewModel>(() =>
-        _i658.HomeViewModel(getCoursesUsecase: gh<_i461.GetCoursesUsecase>()));
     gh.factory<_i80.RegistirationnViewModel>(() => _i80.RegistirationnViewModel(
           getavliablecoursestudentUseCase:
               gh<_i1008.GetavliablecoursestudentUseCase>(),
           dropCourceUsecase: gh<_i463.DropCourceUsecase>(),
           registerCourseUsecase: gh<_i15.RegisterCourseUsecase>(),
+        ));
+    gh.factory<_i658.HomeViewModel>(() => _i658.HomeViewModel(
+          getCoursesUsecase: gh<_i461.GetCoursesUsecase>(),
+          getTimeTableUsecase: gh<_i562.GetTimeTableUsecase>(),
         ));
     return this;
   }

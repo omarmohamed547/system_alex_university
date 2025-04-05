@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:system_alex_univ/core/utils/app_style.dart';
+import 'package:system_alex_univ/domain/entites/Course_TimeTable_entity.dart';
 import 'package:system_alex_univ/domain/entites/GetCourses_response_Entity.dart';
 
 class ScheduleItem extends StatelessWidget {
-  SessionEntity sessionEntity;
-  final String courseName; // Add course name
+  DayEntity dayEntity;
 
-  ScheduleItem(
-      {super.key, required this.sessionEntity, required this.courseName});
+  ScheduleItem({
+    super.key,
+    required this.dayEntity,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class ScheduleItem extends StatelessWidget {
                   color: Colors.white, borderRadius: BorderRadius.circular(27)),
               child: Center(
                 child: Text(
-                  sessionEntity.startTime.toString(),
+                  dayEntity.startTime.toString(),
                   style: AppStyle.white16Inter
                       .copyWith(color: Color(0xff000000), fontSize: 14),
                 ),
@@ -40,7 +42,7 @@ class ScheduleItem extends StatelessWidget {
             SizedBox(
               width: 115.w, // Match the width of the container
               child: Text(
-                "$courseName",
+                dayEntity.name ?? "",
                 style: AppStyle.white16Inter,
                 textAlign: TextAlign.center, // Centers the text
               ),
@@ -48,7 +50,7 @@ class ScheduleItem extends StatelessWidget {
             SizedBox(
               width: 108.w, // Match the width of the container
               child: Text(
-                "${sessionEntity.type}",
+                "${dayEntity.type}",
                 style: AppStyle.white16Inter,
                 textAlign: TextAlign.center, // Centers the text
               ),
@@ -56,7 +58,7 @@ class ScheduleItem extends StatelessWidget {
             SizedBox(
               width: 108.w, // Match the width of the container
               child: Text(
-                "(${sessionEntity.room})",
+                "(${dayEntity.room})",
                 style: AppStyle.white16Inter.copyWith(color: Color(0xff000000)),
                 textAlign: TextAlign.center, // Centers the text
               ),

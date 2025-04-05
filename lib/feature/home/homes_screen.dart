@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:system_alex_univ/core/utils/app_style.dart';
 import 'package:system_alex_univ/core/utils/di/di.dart';
+import 'package:system_alex_univ/domain/entites/Course_TimeTable_entity.dart';
 import 'package:system_alex_univ/feature/home/AnouncmentsItem.dart';
 import 'package:system_alex_univ/feature/home/cubit/home_state.dart';
 import 'package:system_alex_univ/feature/home/cubit/home_view_model.dart';
@@ -24,7 +25,7 @@ class _HomesScreenState extends State<HomesScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    HomeViewModel.get(context).getCourses();
+    HomeViewModel.get(context).getTimeTable();
   }
 
   @override
@@ -126,66 +127,48 @@ class _HomesScreenState extends State<HomesScreen> {
               height: 180.h,
               child: BlocBuilder<HomeViewModel, HomeState>(
                 builder: (context, state) {
-                  if (state is FailureGetCourse) {
+                  if (state is FailureGettimeTable) {
                     return Center(child: Text(state.error.errorMessage));
-                  } else if (state is SucessGetCourse) {
-                    var courses =
-                        state.getCoursesResponseEntities; // List of courses
+                  } else if (state is SucessGettimeTable) {
+                    final timetable = state.courseTableEntity.timetable;
+                    print(state.courseTableEntity.timetable);
 
-                    if (courses.isEmpty) {
-                      return Center(child: Text("No courses available"));
+// Check if timetable is null or if all days are empty
+                    if (timetable == null ||
+                        (timetable.monday?.isEmpty ?? true) &&
+                            (timetable.tuesday?.isEmpty ?? true) &&
+                            (timetable.wednesday?.isEmpty ?? true) &&
+                            (timetable.saturday?.isEmpty ?? true)) {
+                      return Center(child: Text("No timetable data available"));
+                    }
+
+// Collect lectures from available days
+                    final allLectures = [
+                      if (timetable.monday?.isNotEmpty ?? false)
+                        ...timetable.monday!,
+                      if (timetable.tuesday?.isNotEmpty ?? false)
+                        ...timetable.tuesday!,
+                      if (timetable.wednesday?.isNotEmpty ?? false)
+                        ...timetable.wednesday!,
+                      if (timetable.saturday?.isNotEmpty ?? false)
+                        ...timetable.saturday!,
+                    ];
+
+// Check if allLectures is still empty
+                    if (allLectures.isEmpty) {
+                      return Center(child: Text("No lectures available"));
                     }
 
                     return ListView.builder(
-                      itemCount: courses.length,
+                      itemCount: allLectures.length,
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, courseIndex) {
-                        var course = courses[courseIndex];
-
-                        if (course.sections == null ||
-                            course.sections!.isEmpty) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16),
-                            child: Center(
-                                child: Text("No sections for this course")),
-                          );
-                        }
-
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: course.sections!.length,
-                          itemBuilder: (context, sectionIndex) {
-                            var section = course.sections![sectionIndex];
-
-                            if (section.sessions == null ||
-                                section.sessions!.isEmpty) {
-                              return Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 16),
-                                child: Center(
-                                    child: Text("No sessions in this section")),
-                              );
-                            }
-
-                            // Ensure the index is within bounds
-                            int sessionIndex =
-                                section.sessions!.length > sectionIndex
-                                    ? sectionIndex
-                                    : 0;
-
-                            return Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16),
-                              child: ScheduleItem(
-                                courseName: state
-                                        .getCoursesResponseEntities[
-                                            sectionIndex]
-                                        .name ??
-                                    "",
-                                sessionEntity: section
-                                    .sessions![sessionIndex], // Use valid index
-                              ),
-                            );
-                          },
+                      itemBuilder: (context, index) {
+                        final lecture = allLectures[index];
+                        return Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: ScheduleItem(
+                            dayEntity: lecture,
+                          ),
                         );
                       },
                     );

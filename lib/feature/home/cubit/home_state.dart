@@ -1,4 +1,5 @@
 import 'package:system_alex_univ/core/utils/errors/failure.dart';
+import 'package:system_alex_univ/domain/entites/Course_TimeTable_entity.dart';
 import 'package:system_alex_univ/domain/entites/GetCourses_response_Entity.dart';
 
 abstract class HomeState {}
@@ -13,4 +14,16 @@ class FailureGetCourse extends HomeState {
 class SucessGetCourse extends HomeState {
   final List<GetCoursesResponseEntity> getCoursesResponseEntities;
   SucessGetCourse({required this.getCoursesResponseEntities});
+}
+
+class LoadingGettimeTable extends HomeState {}
+
+class FailureGettimeTable extends HomeState {
+  Failure error;
+  FailureGettimeTable({required this.error});
+}
+
+class SucessGettimeTable extends HomeState {
+  CourseTableEntity courseTableEntity;
+  SucessGettimeTable({required this.courseTableEntity});
 }
