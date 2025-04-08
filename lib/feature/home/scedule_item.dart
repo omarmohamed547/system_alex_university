@@ -16,7 +16,10 @@ class ScheduleItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Color(0xff97c4fe), borderRadius: BorderRadius.circular(30)),
+          color: dayEntity.type == 'Lecture'
+              ? Color(0xffDE8811)
+              : Color(0xff97c4fe),
+          borderRadius: BorderRadius.circular(30)),
       width: 145.w,
       height: 170.h,
       child: SingleChildScrollView(

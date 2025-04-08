@@ -1,67 +1,218 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:system_alex_univ/core/utils/app_style.dart';
+import 'package:system_alex_univ/domain/entites/Course_TimeTable_entity.dart';
+import 'package:system_alex_univ/feature/home/cubit/home_state.dart';
+import 'package:system_alex_univ/feature/home/cubit/home_view_model.dart';
+import 'package:system_alex_univ/feature/home/home_drawer.dart';
+import 'package:system_alex_univ/feature/home/homes_screen.dart';
 
 class LectureTable extends StatelessWidget {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text('Lecture Table', style: TextStyle(color: Colors.white)),
-        leading: IconButton(
-          icon: Icon(Icons.menu, color: Colors.white),
-          onPressed: () {},
+      key: _scaffoldKey,
+      drawer: SizedBox(
+        width: 260.w,
+        child: Drawer(
+          child: HomeDrawer(
+            onClose: () {},
+          ),
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            color: Colors.blue,
-            padding: EdgeInsets.symmetric(vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text('8:30 AM', style: TextStyle(color: Colors.white)),
-                Text('10:30 AM', style: TextStyle(color: Colors.white)),
-              ],
-            ),
-          ),
-          Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.all(8),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
-                childAspectRatio: 3,
-              ),
-              itemCount: lectures.length,
-              itemBuilder: (context, index) {
-                final lecture = lectures[index];
-                return Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: lecture['color'],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
+      body: BlocBuilder<HomeViewModel, HomeState>(
+        builder: (context, state) {
+          if (state is LoadingGettimeTable) {
+            return Center(child: CircularProgressIndicator(color: Colors.grey));
+          }
+
+          if (state is FailureGettimeTable) {
+            return Center(child: Text('Error: ${state.error}'));
+          }
+
+          if (state is SucessGettimeTable) {
+            final timetable = state.courseTableEntity.timetable;
+
+            if (timetable == null) {
+              return Center(child: Text("No timetable data available"));
+            }
+
+            final List<MapEntry<String, List<DayEntity>?>> days = [
+              MapEntry('SAT', timetable.saturday),
+              MapEntry('SUN', timetable.sunday),
+              MapEntry('MON', timetable.monday),
+              MapEntry('TUE', timetable.tuesday),
+              MapEntry('WED', timetable.wednesday),
+              MapEntry('THU', timetable.thursday),
+              MapEntry('FRI', timetable.friday),
+            ];
+
+            return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  Stack(
+                    alignment: Alignment.center,
                     children: [
-                      Text(
-                        lecture['subject'],
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black),
+                      Container(
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Color(0xff83B8FD), Colors.white],
+                            begin: Alignment.topRight,
+                            end: Alignment.bottomLeft,
+                            stops: [
+                              0.8,
+                              1.0
+                            ], // Most of it is blue, fading to white only at bottom-left
+                          ),
+                        ),
+                        child: Image.asset(
+                          fit: BoxFit.cover,
+                          height: 300.h,
+                          "assets/images/Rectangle 151.png",
+                        ),
                       ),
-                      SizedBox(height: 4),
-                      Text(
-                        lecture['professor'],
-                        style: TextStyle(fontSize: 12, color: Colors.black54),
+                      Center(
+                        child: Text("Lecture Table",
+                            style:
+                                AppStyle.white16Inter.copyWith(fontSize: 36)),
+                      ),
+                      Positioned(
+                        top: 50,
+                        left: 20,
+                        child: ShowHomeDrawer(scaffoldKey: _scaffoldKey),
                       ),
                     ],
                   ),
-                );
-              },
-            ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        /// Time header row
+                        Container(
+                          color: Color(0xff83B8FD),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 175.w,
+                                child: Container(), // Empty cell for day column
+                              ),
+                              ..._timeSlots.map(_timeHeader),
+                            ],
+                          ),
+                        ),
+
+                        /// Lecture table
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16.h),
+                          child: Table(
+                            border: TableBorder(
+                              horizontalInside: BorderSide(
+                                  color: Colors.grey.shade300, width: 1),
+                              verticalInside: BorderSide(
+                                  color: Colors.grey.shade300, width: 1),
+                            ),
+                            defaultColumnWidth: FixedColumnWidth(175.w),
+                            children: [
+                              for (var dayData in days)
+                                _buildLectureRow(dayData.key, dayData.value),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          return Center(child: Text('No lectures available.'));
+        },
+      ),
+    );
+  }
+
+  Widget _timeHeader(String time) {
+    return SizedBox(
+      width: 175.w,
+      height: 50.h,
+      child: Center(
+        child: Text(
+          time,
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+
+  TableRow _buildLectureRow(String day, List<DayEntity>? lectures) {
+    final Map<String, DayEntity> lectureMap = {};
+    for (var lecture in lectures ?? []) {
+      if (lecture.startTime != null) {
+        lectureMap[lecture.startTime!] = lecture;
+      }
+    }
+
+    List<Widget> rowCells = [
+      SizedBox(
+        height: 79.h,
+        width: 190.w,
+        child: Center(
+          child: Text(
+            day,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      for (var time in _timeSlots)
+        Container(
+          padding: EdgeInsets.all(8),
+          margin: EdgeInsets.symmetric(vertical: 4),
+          child: lectureMap.containsKey(time)
+              ? buildLectureCell(lectureMap[time]!)
+              : SizedBox(width: 190.w),
+        ),
+    ];
+
+    return TableRow(children: rowCells);
+  }
+
+  Widget buildLectureCell(DayEntity lecture) {
+    return SizedBox(
+      width: 190.w,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 4,
+                  lecture.name ?? "",
+                  style: AppStyle.regular14Black,
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Text(
+                  "(${lecture.room})",
+                  style: AppStyle.regular14Black.copyWith(
+                    color: Color(0xffDE8811),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 4),
+          Text(
+            lecture.doctorName ?? "",
+            style: AppStyle.regular14Black.copyWith(color: Color(0xffDE8811)),
           ),
         ],
       ),
@@ -69,25 +220,11 @@ class LectureTable extends StatelessWidget {
   }
 }
 
-final List<Map<String, dynamic>> lectures = [
-  {
-    'subject': 'Multivariate Statistics (101)',
-    'professor': 'صبري محمد احمد',
-    'color': Colors.red[100]
-  },
-  {
-    'subject': 'Operating Systems (425)',
-    'professor': 'د.حازم عبد الحميد محمد',
-    'color': Colors.orange[100]
-  },
-  {
-    'subject': 'S.Operating Systems (425)',
-    'professor': 'د.ماجد محارب',
-    'color': Colors.red[100]
-  },
-  {
-    'subject': 'Introduction to Network (425)',
-    'professor': 'امام الدين ابراهيم',
-    'color': Colors.yellow[100]
-  },
+final List<String> _timeSlots = [
+  '8:30 AM',
+  '10:30 AM',
+  '12:30 PM',
+  '2:30 PM',
+  '4:30 PM',
+  '6:30 PM',
 ];

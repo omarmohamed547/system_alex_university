@@ -5,16 +5,16 @@ import 'package:system_alex_univ/domain/entites/Get_Course_byDoctor_Entity.dart'
 
 abstract class RegistirationState {}
 
-class LoadingGetCourseByDoctor extends RegistirationState {}
+class LoadingGetAvaliableCourse extends RegistirationState {}
 
-class FailureGetCourseByDoctor extends RegistirationState {
+class FailureGetAvaliableCourse extends RegistirationState {
   Failure error;
-  FailureGetCourseByDoctor({required this.error});
+  FailureGetAvaliableCourse({required this.error});
 }
 
-class SucessGetCourseByDoctor extends RegistirationState {
+class SucessGetAvaliableCourse extends RegistirationState {
   final AvaliableCoursesForStudentEntity avaliableCoursesForStudentEntity;
-  SucessGetCourseByDoctor({required this.avaliableCoursesForStudentEntity});
+  SucessGetAvaliableCourse({required this.avaliableCoursesForStudentEntity});
 }
 
 class FailureRegisterCourse extends RegistirationState {

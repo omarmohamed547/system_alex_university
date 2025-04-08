@@ -161,9 +161,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     builder: (context, state) {
                       print("Current State: $state");
 
-                      if (state is FailureGetCourseByDoctor) {
+                      if (state is FailureGetAvaliableCourse) {
                         return Text(state.error.errorMessage);
-                      } else if (state is SucessGetCourseByDoctor) {
+                      } else if (state is SucessGetAvaliableCourse) {
                         String getFormattedDate(String? day) {
                           if (day == null || day.isEmpty)
                             return "N/A"; // Handle null or empty case
@@ -224,6 +224,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                           : "No prerequisites";
 
                                   return CourseCard(
+                                    sectionId:
+                                        course.sections![index].sectionId ?? "",
                                     courseCode: course.code ?? "",
                                     courseName: course.name ?? "",
                                     secAppoinement: secAppointment,
@@ -257,11 +259,13 @@ class CourseCard extends StatelessWidget {
   String secAppoinement;
   String prerequisites;
   String courseCode;
+  String sectionId;
   // final bool isRegistered;
   CourseCard(
       {super.key,
       //  required this.isRegistered,
       required this.courseCode,
+      required this.sectionId,
       required this.courseName,
       required this.instructorName,
       required this.lecAppoinment,
@@ -384,6 +388,7 @@ class CourseCard extends StatelessWidget {
             InkWell(
               onTap: () {
                 RegistirationnViewModel.get(context).registerCourse(courseCode);
+                //     RegistirationnViewModel.get(context).registerSection( courseCode,sectionId );
               },
               child: Container(
                 decoration: BoxDecoration(

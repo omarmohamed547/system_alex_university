@@ -8,7 +8,7 @@ import 'package:system_alex_univ/feature/home/cubit/home_state.dart';
 class HomeViewModel extends Cubit<HomeState> {
   HomeViewModel(
       {required this.getCoursesUsecase, required this.getTimeTableUsecase})
-      : super(LoadingGetCourse());
+      : super(LoadingGettimeTable());
   GetCoursesUsecase getCoursesUsecase;
   GetTimeTableUsecase getTimeTableUsecase;
   static HomeViewModel get(context) => BlocProvider.of<HomeViewModel>(context);

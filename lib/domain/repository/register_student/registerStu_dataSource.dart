@@ -8,5 +8,8 @@ abstract class RegistertuDatasource {
 
   Future<Either<Failure, RegisterCourseEntity>> registerCourse(
       String coursecodes);
+  Future<Either<Failure, RegisterCourseEntity>> registerSection(
+      String coursecodes, String sectionId);
+
   Future<Either<Failure, RegisterCourseEntity>> dropCourse(String coursecodes);
 }

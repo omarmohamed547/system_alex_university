@@ -135,9 +135,11 @@ class _HomesScreenState extends State<HomesScreen> {
 
 // Check if timetable is null or if all days are empty
                     if (timetable == null ||
-                        (timetable.monday?.isEmpty ?? true) &&
+                        (timetable.sunday?.isEmpty ?? true) &&
+                            (timetable.monday?.isEmpty ?? true) &&
                             (timetable.tuesday?.isEmpty ?? true) &&
                             (timetable.wednesday?.isEmpty ?? true) &&
+                            (timetable.thursday?.isEmpty ?? true) &&
                             (timetable.saturday?.isEmpty ?? true)) {
                       return Center(child: Text("No timetable data available"));
                     }
@@ -146,6 +148,10 @@ class _HomesScreenState extends State<HomesScreen> {
                     final allLectures = [
                       if (timetable.monday?.isNotEmpty ?? false)
                         ...timetable.monday!,
+                      if (timetable.sunday?.isNotEmpty ?? false)
+                        ...timetable.sunday!,
+                      if (timetable.thursday?.isNotEmpty ?? false)
+                        ...timetable.thursday!,
                       if (timetable.tuesday?.isNotEmpty ?? false)
                         ...timetable.tuesday!,
                       if (timetable.wednesday?.isNotEmpty ?? false)

@@ -42,4 +42,16 @@ class RegisterStuReposimpl extends RegisterstudentRepos {
       return Right(response);
     });
   }
+
+  @override
+  Future<Either<Failure, RegisterCourseEntity>> registerSection(
+      String coursecodes, String sectionId) async {
+    var either =
+        await registerStuDatasource.registerSection(coursecodes, sectionId);
+    return either.fold((error) {
+      return Left(error);
+    }, (response) {
+      return Right(response);
+    });
+  }
 }

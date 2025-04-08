@@ -11,6 +11,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:system_alex_univ/domain/UseCases/get_time_table_useCase.dart';
+import 'package:system_alex_univ/feature/home/cubit/home_view_model.dart';
 
 import '../../../data/dataSource/auth_dataSource_impl.dart' as _i595;
 import '../../../data/dataSource/home_dataSource_impl.dart' as _i781;
@@ -35,11 +37,10 @@ import '../../../domain/repository/register_student/registerStu_repos.dart'
 import '../../../domain/UseCases/auth_useCase.dart' as _i105;
 import '../../../domain/UseCases/drop_cource_useCase.dart' as _i463;
 import '../../../domain/UseCases/get_courses_useCase.dart' as _i461;
-import '../../../domain/UseCases/get_time_table_useCase.dart' as _i562;
 import '../../../domain/UseCases/getAvliableCourseStudent.dart' as _i1008;
 import '../../../domain/UseCases/register_course_useCase.dart' as _i15;
+import '../../../domain/UseCases/registerSectionUseCase.dart' as _i722;
 import '../../../feature/auth/login/cubit/login_viewModel.dart' as _i1013;
-import '../../../feature/home/cubit/home_view_model.dart' as _i658;
 import '../../../feature/registiration/cubit/registiration_view_model.dart'
     as _i80;
 import '../apis/api_manager.dart' as _i669;
@@ -76,8 +77,12 @@ extension GetItInjectableX on _i174.GetIt {
         registerStuDatasource: gh<_i235.RegistertuDatasource>()));
     gh.factory<_i294.HomeRepos>(() => _i272.HomeReposImpl(
         homeRemotedatasource: gh<_i725.HomeRemotedatasource>()));
-    gh.factory<_i562.GetTimeTableUsecase>(() => _i562.GetTimeTableUsecase(
-        homeStudentRepos: gh<_i473.TimeTableRepos>()));
+    gh.factory<GetTimeTableUsecase>(() =>
+        GetTimeTableUsecase(homeStudentRepos: gh<_i473.TimeTableRepos>()));
+    gh.factory<HomeViewModel>(() => HomeViewModel(
+          getCoursesUsecase: gh<_i461.GetCoursesUsecase>(),
+          getTimeTableUsecase: gh<GetTimeTableUsecase>(),
+        ));
     gh.factory<_i461.GetCoursesUsecase>(
         () => _i461.GetCoursesUsecase(homeRepos: gh<_i294.HomeRepos>()));
     gh.factory<_i1008.GetavliablecoursestudentUseCase>(() =>
@@ -87,15 +92,14 @@ extension GetItInjectableX on _i174.GetIt {
         registerstudentRepos: gh<_i165.RegisterstudentRepos>()));
     gh.factory<_i463.DropCourceUsecase>(() => _i463.DropCourceUsecase(
         registerstudentRepos: gh<_i165.RegisterstudentRepos>()));
+    gh.factory<_i722.RegisterSectionUsecase>(() => _i722.RegisterSectionUsecase(
+        registerstudentRepos: gh<_i165.RegisterstudentRepos>()));
     gh.factory<_i80.RegistirationnViewModel>(() => _i80.RegistirationnViewModel(
           getavliablecoursestudentUseCase:
               gh<_i1008.GetavliablecoursestudentUseCase>(),
+          registerSectionUsecase: gh<_i722.RegisterSectionUsecase>(),
           dropCourceUsecase: gh<_i463.DropCourceUsecase>(),
           registerCourseUsecase: gh<_i15.RegisterCourseUsecase>(),
-        ));
-    gh.factory<_i658.HomeViewModel>(() => _i658.HomeViewModel(
-          getCoursesUsecase: gh<_i461.GetCoursesUsecase>(),
-          getTimeTableUsecase: gh<_i562.GetTimeTableUsecase>(),
         ));
     return this;
   }

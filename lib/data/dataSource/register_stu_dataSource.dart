@@ -115,4 +115,39 @@ class RegisterStuDatasourceimp implements RegistertuDatasource {
       return Left(NetworkError(errorMessage: "No internet connection"));
     }
   }
+
+  @override
+  Future<Either<Failure, RegisterCourseDm>> registerSection(
+      String coursecodes, String sectionId) async {
+    final List<ConnectivityResult> connectivityResult =
+        await (Connectivity().checkConnectivity());
+    if (connectivityResult.contains(ConnectivityResult.mobile) ||
+        connectivityResult.contains(ConnectivityResult.wifi)) {
+      try {
+        var token = SharedPrefernceUtilis.getData('token');
+        var userId = SharedPrefernceUtilis.getData('userId');
+        print("token:$token");
+        var response = await apiManager.postData(
+          body: {"courseCodes": coursecodes, "sectionId": sectionId},
+          apiEndpoints:
+              "${ApiEndpoints.registerSectionsStudentndpoint}/$userId",
+          headers: {'Authorization': 'Bearer $token'},
+        );
+
+        if (response.statusCode! >= 200 && response.statusCode! < 300) {
+          print("response:$response");
+
+          var avliablesectionResponse =
+              RegisterCourseDm.fromJson(response.data);
+          return Right(avliablesectionResponse);
+        } else {
+          return Left(ServerError(errorMessage: "Failed to fetch courses"));
+        }
+      } catch (e) {
+        return Left(Failure(errorMessage: e.toString()));
+      }
+    } else {
+      return Left(NetworkError(errorMessage: "No internet connection"));
+    }
+  }
 }

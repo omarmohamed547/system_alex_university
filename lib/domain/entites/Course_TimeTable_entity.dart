@@ -9,17 +9,22 @@ class CourseTableEntity {
 }
 
 class TimetableEntity {
-  TimetableEntity({
-    required this.wednesday,
-    required this.saturday,
-    required this.monday,
-    required this.tuesday,
-  });
+  TimetableEntity(
+      {required this.wednesday,
+      required this.saturday,
+      required this.monday,
+      required this.tuesday,
+      required this.sunday,
+      required this.thursday,
+      required this.friday});
 
   final List<DayEntity>? wednesday;
   final List<DayEntity>? saturday;
   final List<DayEntity>? monday;
   final List<DayEntity>? tuesday;
+  final List<DayEntity>? sunday;
+  final List<DayEntity>? thursday;
+  final List<DayEntity>? friday;
 }
 
 class DayEntity {

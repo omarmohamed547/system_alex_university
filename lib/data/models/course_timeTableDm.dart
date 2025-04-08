@@ -17,15 +17,20 @@ class CourseTableDm extends CourseTableEntity {
 }
 
 class TimetableDm extends TimetableEntity {
-  TimetableDm({
-    super.wednesday,
-    super.saturday,
-    super.monday,
-    super.tuesday,
-  });
+  TimetableDm(
+      {super.wednesday,
+      super.saturday,
+      super.friday,
+      super.monday,
+      super.tuesday,
+      super.sunday,
+      super.thursday});
 
   factory TimetableDm.fromJson(Map<String, dynamic> json) {
     return TimetableDm(
+      friday: json["Friday"] == null
+          ? []
+          : List<DayDm>.from(json["Friday"]!.map((x) => DayDm.fromJson(x))),
       wednesday: json["Wednesday"] == null
           ? []
           : List<DayDm>.from(json["Wednesday"]!.map((x) => DayDm.fromJson(x))),
@@ -38,6 +43,12 @@ class TimetableDm extends TimetableEntity {
       tuesday: json["Tuesday"] == null
           ? []
           : List<DayDm>.from(json["Tuesday"]!.map((x) => DayDm.fromJson(x))),
+      sunday: json["Sunday"] == null
+          ? []
+          : List<DayDm>.from(json["Sunday"]!.map((x) => DayDm.fromJson(x))),
+      thursday: json["Thursday"] == null
+          ? []
+          : List<DayDm>.from(json["Thursday"]!.map((x) => DayDm.fromJson(x))),
     );
   }
 }

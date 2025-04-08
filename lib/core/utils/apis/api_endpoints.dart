@@ -3,6 +3,7 @@ class ApiEndpoints {
   static String getCoursesendpoint = 'api/admin/courses';
   static String getAvliableCourseseStudentndpoint =
       'api/student/available-courses';
+  static String registerSectionsStudentndpoint = 'api/student/register-section';
 
   static String registerCourseseStudentndpoint = 'api/student/register-course';
   static String dropCourseseStudentndpoint = 'api/student/drop-course';
