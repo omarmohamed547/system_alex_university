@@ -63,7 +63,7 @@ class HomeDrawer extends StatelessWidget {
               DrawerItem(
                 icon: Icons.assessment,
                 text: "Performance",
-                route: AppRoutes.homeScreen,
+                route: AppRoutes.performaneScreen,
               ),
               DrawerItem(
                 icon: Icons.app_registration,
@@ -141,6 +141,78 @@ class DrawerItem extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+}
+
+class ShowHomeDrawer extends StatelessWidget {
+  const ShowHomeDrawer({
+    super.key,
+    required GlobalKey<ScaffoldState> scaffoldKey,
+  }) : _scaffoldKey = scaffoldKey;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        _scaffoldKey.currentState?.openDrawer(); // Open Drawer
+      },
+      child: Image.asset(
+        "assets/icons/drawer.png",
+        color: Colors.white,
+        height: 18.h,
+        width: 32.w,
+      ),
+    );
+  }
+}
+
+class TitleScreenWithDrawer extends StatelessWidget {
+  String title;
+  TitleScreenWithDrawer({
+    required this.title,
+    super.key,
+    required GlobalKey<ScaffoldState> scaffoldKey,
+  }) : _scaffoldKey = scaffoldKey;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xff83B8FD), Colors.white],
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+
+              stops: [
+                0.9,
+                1.0
+              ], // Most of it is blue, fading to white only at bottom-left
+            ),
+          ),
+          child: Image.asset(
+            fit: BoxFit.cover,
+            height: 300.h,
+            "assets/images/Rectangle 151.png",
+          ),
+        ),
+        Center(
+          child:
+              Text(title, style: AppStyle.white16Inter.copyWith(fontSize: 36)),
+        ),
+        Positioned(
+          top: 50,
+          left: 20,
+          child: ShowHomeDrawer(scaffoldKey: _scaffoldKey),
+        ),
+      ],
     );
   }
 }

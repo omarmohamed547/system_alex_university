@@ -49,4 +49,7 @@ class AppStyle {
 
   static final grey10Inter = GoogleFonts.inter(
       color: Color(0xff5B5B5B), fontSize: 10, fontWeight: FontWeight.w200);
+
+  static final extraBold14Blue = GoogleFonts.inter(
+      color: Color(0xff83B8FD), fontSize: 16, fontWeight: FontWeight.bold);
 }

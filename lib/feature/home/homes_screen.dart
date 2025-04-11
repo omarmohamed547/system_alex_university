@@ -232,26 +232,3 @@ class _HomesScreenState extends State<HomesScreen> {
     return "$dayOfWeek.$day";
   }
 }
-
-class ShowHomeDrawer extends StatelessWidget {
-  const ShowHomeDrawer({
-    super.key,
-    required GlobalKey<ScaffoldState> scaffoldKey,
-  }) : _scaffoldKey = scaffoldKey;
-
-  final GlobalKey<ScaffoldState> _scaffoldKey;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        _scaffoldKey.currentState?.openDrawer(); // Open Drawer
-      },
-      child: Image.asset(
-        "assets/icons/drawer.png",
-        height: 18.h,
-        width: 32.w,
-      ),
-    );
-  }
-}

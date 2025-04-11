@@ -128,7 +128,11 @@ class RegisterStuDatasourceimp implements RegistertuDatasource {
         var userId = SharedPrefernceUtilis.getData('userId');
         print("token:$token");
         var response = await apiManager.postData(
-          body: {"courseCodes": coursecodes, "sectionId": sectionId},
+          body: {
+            "registrations": [
+              {"courseCode": coursecodes, "sectionId": sectionId}
+            ]
+          },
           apiEndpoints:
               "${ApiEndpoints.registerSectionsStudentndpoint}/$userId",
           headers: {'Authorization': 'Bearer $token'},

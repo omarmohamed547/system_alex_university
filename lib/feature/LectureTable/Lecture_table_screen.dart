@@ -7,6 +7,7 @@ import 'package:system_alex_univ/feature/home/cubit/home_state.dart';
 import 'package:system_alex_univ/feature/home/cubit/home_view_model.dart';
 import 'package:system_alex_univ/feature/home/home_drawer.dart';
 import 'package:system_alex_univ/feature/home/homes_screen.dart';
+import 'package:system_alex_univ/feature/performance/performance_screen.dart';
 
 class LectureTable extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -54,38 +55,9 @@ class LectureTable extends StatelessWidget {
               scrollDirection: Axis.vertical,
               child: Column(
                 children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Container(
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Color(0xff83B8FD), Colors.white],
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
-                            stops: [
-                              0.8,
-                              1.0
-                            ], // Most of it is blue, fading to white only at bottom-left
-                          ),
-                        ),
-                        child: Image.asset(
-                          fit: BoxFit.cover,
-                          height: 300.h,
-                          "assets/images/Rectangle 151.png",
-                        ),
-                      ),
-                      Center(
-                        child: Text("Lecture Table",
-                            style:
-                                AppStyle.white16Inter.copyWith(fontSize: 36)),
-                      ),
-                      Positioned(
-                        top: 50,
-                        left: 20,
-                        child: ShowHomeDrawer(scaffoldKey: _scaffoldKey),
-                      ),
-                    ],
+                  TitleScreenWithDrawer(
+                    scaffoldKey: _scaffoldKey,
+                    title: "Lecture Table",
                   ),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
