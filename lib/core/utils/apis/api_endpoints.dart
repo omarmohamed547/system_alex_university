@@ -9,4 +9,5 @@ class ApiEndpoints {
   static String dropCourseseStudentndpoint = 'api/student/drop-course';
 
   static String getCourseseTableendpoint = 'api/student/time-table';
+  static String getPerformamceendpoint = 'api/gpa/performance';
 }

@@ -44,7 +44,7 @@ class RegisterStuReposimpl extends RegisterstudentRepos {
   }
 
   @override
-  Future<Either<Failure, RegisterCourseEntity>> registerSection(
+  Future<Either<Failure, RegisterSectionEntity>> registerSection(
       String coursecodes, String sectionId) async {
     var either =
         await registerStuDatasource.registerSection(coursecodes, sectionId);

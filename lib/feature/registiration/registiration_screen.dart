@@ -46,9 +46,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               duration: Duration(seconds: 2), // Show for 2 seconds
             ));
-
-            registirationViewModel.getAvliableCourse();
           } else if (state is FailureRegisterCourse) {
+            print(state.error.errorMessage);
+            _scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
+              content: Center(
+                child: Text(
+                  state.error.errorMessage,
+                  style: AppStyle.medium16Black,
+                ),
+              ),
+              duration: Duration(seconds: 2), // Show for 2 seconds
+            ));
+          } else if (state is SucessRegisterSec) {
+            print(state.registerSectionEntity.message);
+            _scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
+              content: Center(
+                child: Text(
+                  state.registerSectionEntity.message ?? "",
+                  style: AppStyle.medium16Black,
+                ),
+              ),
+              duration: Duration(seconds: 2), // Show for 2 seconds
+            ));
+          } else if (state is FailureRegisterSec) {
             print(state.error.errorMessage);
             _scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
               content: Center(
@@ -224,8 +244,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                           : "No prerequisites";
 
                                   return CourseCard(
-                                    sectionId:
-                                        course.sections![index].sectionId ?? "",
+                                    sectionId: course.sections != null &&
+                                            course.sections!.isNotEmpty
+                                        ? course.sections!.first.sectionId ?? ""
+                                        : "N/A",
                                     courseCode: course.code ?? "",
                                     courseName: course.name ?? "",
                                     secAppoinement: secAppointment,
@@ -274,139 +296,161 @@ class CourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 220.h,
-        width: 390.w,
-        padding: EdgeInsets.only(left: 8.w),
-        margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
-        decoration: BoxDecoration(
-            color: Color(0xffFEF9F2),
-            borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(16),
-                topLeft: Radius.circular(16),
-                topRight: Radius.circular(16),
-                bottomLeft: Radius.circular(32)),
-            border: Border.all(width: 1, color: Color.fromRGBO(0, 0, 0, 0.25))),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
+    return Stack(
+      alignment: Alignment.topRight,
+      children: [
+        Container(
+            height: 220.h,
+            width: 390.w,
+            padding: EdgeInsets.only(left: 8.w),
+            margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+            decoration: BoxDecoration(
+                color: Color(0xffFEF9F2),
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(16),
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                    bottomLeft: Radius.circular(32)),
+                border:
+                    Border.all(width: 1, color: Color.fromRGBO(0, 0, 0, 0.25))),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                RotatedBox(
-                  quarterTurns: 3,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(width: 1, color: Color(0xff83B8FD))),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                      child: Text(prerequisites,
-                          style: TextStyle(color: Colors.orange)),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 16.w,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: [
-                    Container(
-                      width: 250.w, // Or a specific width like 200.0
-                      child: Text(
-                        courseName,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppStyle.bold38Black.copyWith(fontSize: 24),
+                    RotatedBox(
+                      quarterTurns: 3,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border:
+                                Border.all(width: 1, color: Color(0xff83B8FD))),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 8.w, vertical: 4.h),
+                          child: Text(prerequisites,
+                              style: TextStyle(color: Colors.orange)),
+                        ),
                       ),
                     ),
                     SizedBox(
-                      width: 12.h,
+                      width: 16.w,
                     ),
-                    Text(instructorName, style: AppStyle.regular14Black),
-                    SizedBox(
-                      height: 12.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment
-                              .center, // Align text to the start
-
-                          children: [
-                            Text("Lec", style: TextStyle(color: Colors.orange)),
-                            Text(lecAppoinment,
-                                style: TextStyle(color: Colors.orange)),
-                          ],
+                        Container(
+                          width: 250.w, // Or a specific width like 200.0
+                          child: Text(
+                            courseName,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppStyle.bold38Black.copyWith(fontSize: 24),
+                          ),
                         ),
                         SizedBox(
-                          width: 24.w,
+                          width: 12.h,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment
-                              .center, // Align text to the start
-
+                        Text(instructorName, style: AppStyle.regular14Black),
+                        SizedBox(
+                          height: 12.h,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Sec", style: TextStyle(color: Colors.orange)),
-                            Text(secAppoinement,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: Colors.orange)),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment
+                                  .center, // Align text to the start
+
+                              children: [
+                                Text("Lec",
+                                    style: TextStyle(color: Colors.orange)),
+                                Text(lecAppoinment,
+                                    style: TextStyle(color: Colors.orange)),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 24.w,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment
+                                  .center, // Align text to the start
+
+                              children: [
+                                Text("Sec",
+                                    style: TextStyle(color: Colors.orange)),
+                                Text(secAppoinement,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(color: Colors.orange)),
+                              ],
+                            ),
                           ],
                         ),
                       ],
                     ),
                   ],
                 ),
-              ],
-            ),
-            /* isRegistered
-                ? InkWell(
-                    onTap: () {
-                      RegistirationnViewModel.get(context)
-                          .registerCourse(courseCode);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xffDE7D7D),
-                        borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(12),
-                            topRight: Radius.circular(12)),
-                      ),
-                      width: 70.w,
-                      height: double.infinity,
-                      child: const Icon(
-                        Icons.remove,
-                        color: Colors.white,
-                        size: 42,
-                      ),
+                /* isRegistered
+                    ? InkWell(
+                        onTap: () {
+                          RegistirationnViewModel.get(context)
+                              .registerCourse(courseCode);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Color(0xffDE7D7D),
+                            borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(12),
+                                topRight: Radius.circular(12)),
+                          ),
+                          width: 70.w,
+                          height: double.infinity,
+                          child: const Icon(
+                            Icons.remove,
+                            color: Colors.white,
+                            size: 42,
+                          ),
+                        ),
+                      )
+                    : */
+                InkWell(
+                  onTap: () {
+                    RegistirationnViewModel.get(context)
+                        .registerCourse(courseCode);
+                    RegistirationnViewModel.get(context)
+                        .registerSection(courseCode, sectionId);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xff83B8FD),
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(12),
+                          topRight: Radius.circular(12)),
                     ),
-                  )
-                : */
-            InkWell(
-              onTap: () {
-                RegistirationnViewModel.get(context).registerCourse(courseCode);
-                //     RegistirationnViewModel.get(context).registerSection( courseCode,sectionId );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Color(0xff83B8FD),
-                  borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(12),
-                      topRight: Radius.circular(12)),
+                    width: 70.w,
+                    height: double.infinity,
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 42,
+                    ),
+                  ),
                 ),
-                width: 70.w,
-                height: double.infinity,
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 42,
-                ),
-              ),
+              ],
+            )),
+        Positioned(
+          top: 0,
+          right: 30,
+          child: InkWell(
+            child: Icon(
+              Icons.delete,
+              color: Colors.green,
+              size: 30,
             ),
-          ],
-        ));
+          ),
+        ),
+      ],
+    );
   }
 }

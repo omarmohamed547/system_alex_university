@@ -95,7 +95,7 @@ class RegisterStuDatasourceimp implements RegistertuDatasource {
         var userId = SharedPrefernceUtilis.getData('userId');
         print("token:$token");
         var response = await apiManager.deleteData(
-          body: {"courseCodes": coursecodes},
+          body: {"courseCode": coursecodes},
           apiEndpoints: "${ApiEndpoints.dropCourseseStudentndpoint}/$userId",
           headers: {'Authorization': 'Bearer $token'},
         );
@@ -117,7 +117,7 @@ class RegisterStuDatasourceimp implements RegistertuDatasource {
   }
 
   @override
-  Future<Either<Failure, RegisterCourseDm>> registerSection(
+  Future<Either<Failure, RegisterSectionDm>> registerSection(
       String coursecodes, String sectionId) async {
     final List<ConnectivityResult> connectivityResult =
         await (Connectivity().checkConnectivity());
@@ -135,17 +135,22 @@ class RegisterStuDatasourceimp implements RegistertuDatasource {
           },
           apiEndpoints:
               "${ApiEndpoints.registerSectionsStudentndpoint}/$userId",
-          headers: {'Authorization': 'Bearer $token'},
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json', // 🔥 Add this
+          },
         );
 
         if (response.statusCode! >= 200 && response.statusCode! < 300) {
           print("response:$response");
 
           var avliablesectionResponse =
-              RegisterCourseDm.fromJson(response.data);
+              RegisterSectionDm.fromJson(response.data);
           return Right(avliablesectionResponse);
         } else {
-          return Left(ServerError(errorMessage: "Failed to fetch courses"));
+          print("Status code: ${response.statusCode}");
+
+          return Left(ServerError(errorMessage: "Failed to fetch section"));
         }
       } catch (e) {
         return Left(Failure(errorMessage: e.toString()));

@@ -17,6 +17,8 @@ import 'package:system_alex_univ/feature/performance/performance_screen.dart';
 import 'package:system_alex_univ/feature/registiration/cubit/registiration_view_model.dart';
 import 'package:system_alex_univ/feature/registiration/registiration_screen.dart';
 
+import 'feature/performance/cubit/performance_view_model.dart';
+
 void main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); // Ensures Flutter is fully initialized
@@ -29,6 +31,9 @@ void main() async {
     BlocProvider(create: (context) => getIt<LoginViewmodel>()),
     BlocProvider(create: (context) => getIt<RegistirationnViewModel>()),
     BlocProvider(create: (context) => getIt<HomeViewModel>()),
+    BlocProvider(
+      create: (context) => getIt<PerformanceViewModel>(),
+    ),
   ], child: const MyApp()));
 }
 

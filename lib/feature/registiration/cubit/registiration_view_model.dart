@@ -48,12 +48,15 @@ class RegistirationnViewModel extends Cubit<RegistirationState> {
 
   void registerSection(String coursecodes, String sectionId) async {
     var either = await registerSectionUsecase.invoke(coursecodes, sectionId);
-    either.fold((error) {
-      emit(FailureRegisterCourse(error: error));
-    }, (response) {
-      emit(SucessRegisterCourse(registerCourseEntity: response));
-      emit(LastUpdateCourse());
-    });
+    either.fold(
+      (error) {
+        emit(FailureRegisterSec(error: error));
+      },
+      (response) {
+        emit(SucessRegisterSec(registerSectionEntity: response));
+        emit(LastUpdateCourse());
+      },
+    );
   }
 
   void dropCourse(String coursecodes) async {

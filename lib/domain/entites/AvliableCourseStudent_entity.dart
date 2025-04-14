@@ -75,3 +75,23 @@ class RegisterCourseEntity {
   final String? message;
   final List<String>? alreadyRegistered;
 }
+
+class RegisterSectionEntity {
+  RegisterSectionEntity({
+    required this.message,
+    required this.registeredSections,
+  });
+
+  final String? message;
+  final List<RegisteredSectionEntity>? registeredSections;
+}
+
+class RegisteredSectionEntity {
+  RegisteredSectionEntity({
+    required this.courseCode,
+    required this.sectionId,
+  });
+
+  final String? courseCode;
+  final String? sectionId;
+}

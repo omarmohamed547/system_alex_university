@@ -9,8 +9,8 @@ class RegisterSectionUsecase {
   RegisterstudentRepos registerstudentRepos;
   RegisterSectionUsecase({required this.registerstudentRepos});
 
-  Future<Either<Failure, RegisterCourseEntity>> invoke(
+  Future<Either<Failure, RegisterSectionEntity>> invoke(
       String coursecodes, String sectionId) {
-    return registerstudentRepos.registerCourse(coursecodes);
+    return registerstudentRepos.registerSection(coursecodes, sectionId);
   }
 }

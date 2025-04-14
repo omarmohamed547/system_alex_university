@@ -5,14 +5,15 @@ import 'package:system_alex_univ/core/utils/apis/api_constant.dart';
 @singleton
 class ApiManager {
   final dio = Dio();
+
   String buildUrl(String endpoint) {
     final base = ApiConstant.baseurl;
     if (base.endsWith('/') && endpoint.startsWith('/')) {
-      return base + endpoint.substring(1); // remove extra slash
+      return base + endpoint.substring(1);
     } else if (!base.endsWith('/') && !endpoint.startsWith('/')) {
-      return '$base/$endpoint'; // add missing slash
+      return '$base/$endpoint';
     }
-    return base + endpoint; // already correct
+    return base + endpoint;
   }
 
   Future<Response> getData({
@@ -20,14 +21,21 @@ class ApiManager {
     Map<String, dynamic>? headers,
     Map<String, dynamic>? queryParameters,
     Options? options,
-  }) {
+  }) async {
     final url = buildUrl(apiEndpoints);
     print('GET: $url');
-    return dio.get(
-      url,
-      options: Options(validateStatus: (status) => true, headers: headers),
-      queryParameters: queryParameters,
-    );
+
+    try {
+      final response = await dio.get(
+        url,
+        options: Options(validateStatus: (_) => true, headers: headers),
+        queryParameters: queryParameters,
+      );
+      return response;
+    } on DioException catch (e) {
+      print("Dio GET error: ${e.message}");
+      rethrow;
+    }
   }
 
   Future<Response> postData({
@@ -36,15 +44,22 @@ class ApiManager {
     Object? body,
     Map<String, dynamic>? headers,
     Options? options,
-  }) {
+  }) async {
     final url = buildUrl(apiEndpoints);
-    print('POST: $url');
-    return dio.post(
-      url,
-      data: body,
-      options: Options(validateStatus: (status) => true, headers: headers),
-      queryParameters: queryParameters,
-    );
+    print('POST: $url, BODY: $body');
+
+    try {
+      final response = await dio.post(
+        url,
+        data: body,
+        options: Options(validateStatus: (_) => true, headers: headers),
+        queryParameters: queryParameters,
+      );
+      return response;
+    } on DioException catch (e) {
+      print("Dio POST error: ${e.message}");
+      rethrow;
+    }
   }
 
   Future<Response> deleteData({
@@ -53,15 +68,22 @@ class ApiManager {
     Object? body,
     Map<String, dynamic>? headers,
     Options? options,
-  }) {
+  }) async {
     final url = buildUrl(apiEndpoints);
-    print('DELETE: $url');
-    return dio.delete(
-      url,
-      data: body,
-      options: Options(validateStatus: (status) => true, headers: headers),
-      queryParameters: queryParameters,
-    );
+    print('DELETE: $url, BODY: $body');
+
+    try {
+      final response = await dio.delete(
+        url,
+        data: body,
+        options: Options(validateStatus: (_) => true, headers: headers),
+        queryParameters: queryParameters,
+      );
+      return response;
+    } on DioException catch (e) {
+      print("Dio DELETE error: ${e.message}");
+      rethrow;
+    }
   }
 
   Future<Response> update({
@@ -70,14 +92,21 @@ class ApiManager {
     Object? body,
     Map<String, dynamic>? headers,
     Options? options,
-  }) {
+  }) async {
     final url = buildUrl(apiEndpoints);
-    print('PUT: $url');
-    return dio.put(
-      url,
-      data: body,
-      options: Options(validateStatus: (status) => true, headers: headers),
-      queryParameters: queryParameters,
-    );
+    print('PUT: $url, BODY: $body');
+
+    try {
+      final response = await dio.put(
+        url,
+        data: body,
+        options: Options(validateStatus: (_) => true, headers: headers),
+        queryParameters: queryParameters,
+      );
+      return response;
+    } on DioException catch (e) {
+      print("Dio PUT error: ${e.message}");
+      rethrow;
+    }
   }
 }

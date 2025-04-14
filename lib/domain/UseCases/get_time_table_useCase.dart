@@ -6,9 +6,9 @@ import 'package:system_alex_univ/domain/repository/home_stu/time_table_repos.dar
 
 @injectable
 class GetTimeTableUsecase {
-  TimeTableRepos homeStudentRepos;
-  GetTimeTableUsecase({required this.homeStudentRepos});
+  TimeTableRepos timeTableRepos;
+  GetTimeTableUsecase({required this.timeTableRepos});
   Future<Either<Failure, CourseTableEntity>> invoke() {
-    return homeStudentRepos.getTimeTable();
+    return timeTableRepos.getTimeTable();
   }
 }

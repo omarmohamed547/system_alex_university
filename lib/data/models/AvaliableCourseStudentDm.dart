@@ -115,3 +115,34 @@ class RegisterCourseDm extends RegisterCourseEntity {
     );
   }
 }
+
+class RegisterSectionDm extends RegisterSectionEntity {
+  RegisterSectionDm({
+    super.message,
+    super.registeredSections,
+  });
+
+  factory RegisterSectionDm.fromJson(Map<String, dynamic> json) {
+    return RegisterSectionDm(
+      message: json["message"],
+      registeredSections: json["registeredSections"] == null
+          ? []
+          : List<RegisteredSection>.from(json["registeredSections"]!
+              .map((x) => RegisteredSection.fromJson(x))),
+    );
+  }
+}
+
+class RegisteredSection extends RegisteredSectionEntity {
+  RegisteredSection({
+    super.courseCode,
+    super.sectionId,
+  });
+
+  factory RegisteredSection.fromJson(Map<String, dynamic> json) {
+    return RegisteredSection(
+      courseCode: json["courseCode"],
+      sectionId: json["sectionId"],
+    );
+  }
+}
