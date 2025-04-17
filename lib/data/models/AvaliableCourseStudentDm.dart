@@ -5,6 +5,7 @@ class AvaliableCourseStudentDm extends AvaliableCoursesForStudentEntity {
     super.message,
     super.courses,
     super.failedCourses,
+    super.registeredCourses,
   });
 
   factory AvaliableCourseStudentDm.fromJson(Map<String, dynamic> json) {
@@ -17,26 +18,30 @@ class AvaliableCourseStudentDm extends AvaliableCoursesForStudentEntity {
       failedCourses: json["failedCourses"] == null
           ? []
           : List<dynamic>.from(json["failedCourses"]!.map((x) => x)),
+      registeredCourses: json["registeredCourses"] == null
+          ? []
+          : List<String>.from(json["registeredCourses"]!.map((x) => x)),
     );
   }
 }
 
 class CoursestudentDm extends CourseStudentEntity {
-  CoursestudentDm({
-    super.code,
-    super.name,
-    super.lectureSessions,
-    super.doctorName,
-    super.sections,
-    super.isFailedCourse,
-    super.creditHours,
-    super.prerequisites,
-  });
+  CoursestudentDm(
+      {super.code,
+      super.name,
+      super.lectureSessions,
+      super.doctorName,
+      super.sections,
+      super.isFailedCourse,
+      super.creditHours,
+      super.prerequisites,
+      required super.isRegistered});
 
   factory CoursestudentDm.fromJson(Map<String, dynamic> json) {
     return CoursestudentDm(
       code: json["code"],
       name: json["name"],
+      isRegistered: json["isRegistered"],
       lectureSessions: json["lectureSessions"] == null
           ? []
           : List<SessionStudentDm>.from(json["lectureSessions"]!
@@ -143,6 +148,22 @@ class RegisteredSection extends RegisteredSectionEntity {
     return RegisteredSection(
       courseCode: json["courseCode"],
       sectionId: json["sectionId"],
+    );
+  }
+}
+
+class DropCourseDm extends DropCourseEntity {
+  DropCourseDm({
+    super.message,
+    super.droppedSections,
+  });
+
+  factory DropCourseDm.fromJson(Map<String, dynamic> json) {
+    return DropCourseDm(
+      message: json["message"],
+      droppedSections: json["droppedSections"] == null
+          ? []
+          : List<String>.from(json["droppedSections"]!.map((x) => x)),
     );
   }
 }

@@ -33,7 +33,7 @@ class RegisterStuReposimpl extends RegisterstudentRepos {
   }
 
   @override
-  Future<Either<Failure, RegisterCourseEntity>> dropCourse(
+  Future<Either<Failure, DropCourseEntity>> dropCourse(
       String coursecodes) async {
     var either = await registerStuDatasource.dropCourse(coursecodes);
     return either.fold((error) {

@@ -33,8 +33,8 @@ class FailureDropCourse extends RegistirationState {
 }
 
 class SucessDropCourse extends RegistirationState {
-  final RegisterCourseEntity registerCourseEntity;
-  SucessDropCourse({required this.registerCourseEntity});
+  final DropCourseEntity dropCourseEntity;
+  SucessDropCourse({required this.dropCourseEntity});
 }
 
 class FailureRegisterSec extends RegistirationState {

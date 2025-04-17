@@ -48,20 +48,19 @@ class StartUpScreen extends StatelessWidget {
             height: 60.h,
           ),
           Padding(
-            padding: EdgeInsets.only(right: 25.w),
+            padding: EdgeInsets.symmetric(horizontal: 25.w),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                SizedBox.shrink(),
                 InkWell(
                   onTap: () {
                     Navigator.pushNamed(context, AppRoutes.loginScreen);
                   },
-                  child: SizedBox(
-                    width: 124.w,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12.w),
                     height: 36.h,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
                           "Continue",

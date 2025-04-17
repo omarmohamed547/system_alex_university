@@ -3,11 +3,13 @@ class AvaliableCoursesForStudentEntity {
     required this.message,
     required this.courses,
     required this.failedCourses,
+    required this.registeredCourses,
   });
 
   final String? message;
   final List<CourseStudentEntity>? courses;
   final List<dynamic>? failedCourses;
+  final List<String>? registeredCourses;
 }
 
 class CourseStudentEntity {
@@ -18,6 +20,7 @@ class CourseStudentEntity {
     required this.doctorName,
     required this.sections,
     required this.isFailedCourse,
+    required this.isRegistered,
     required this.creditHours,
     required this.prerequisites,
   });
@@ -28,6 +31,7 @@ class CourseStudentEntity {
   final String? doctorName;
   final List<SectionStudentEntity>? sections;
   final bool? isFailedCourse;
+  final bool? isRegistered;
   final num? creditHours;
   final List<String>? prerequisites;
 }
@@ -94,4 +98,14 @@ class RegisteredSectionEntity {
 
   final String? courseCode;
   final String? sectionId;
+}
+
+class DropCourseEntity {
+  DropCourseEntity({
+    required this.message,
+    required this.droppedSections,
+  });
+
+  final String? message;
+  final List<String>? droppedSections;
 }

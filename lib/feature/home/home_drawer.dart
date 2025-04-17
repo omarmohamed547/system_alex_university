@@ -204,8 +204,13 @@ class TitleScreenWithDrawer extends StatelessWidget {
           ),
         ),
         Center(
-          child:
-              Text(title, style: AppStyle.white16Inter.copyWith(fontSize: 36)),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+                maxLines: 2,
+                title,
+                style: AppStyle.white16Inter.copyWith(fontSize: 36)),
+          ),
         ),
         Positioned(
           top: 50,

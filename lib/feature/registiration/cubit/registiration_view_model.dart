@@ -13,6 +13,8 @@ class RegistirationnViewModel extends Cubit<RegistirationState> {
   RegisterCourseUsecase registerCourseUsecase;
   RegisterSectionUsecase registerSectionUsecase;
   DropCourceUsecase dropCourceUsecase;
+  bool isCourseRegistered = false; // Track course registration status
+
   RegistirationnViewModel(
       {required this.getavliablecoursestudentUseCase,
       required this.registerSectionUsecase,
@@ -36,36 +38,40 @@ class RegistirationnViewModel extends Cubit<RegistirationState> {
     });
   }
 
-  void registerCourse(String coursecodes) async {
+  Future<String?> registerCourse(String coursecodes) async {
     var either = await registerCourseUsecase.invoke(coursecodes);
-    either.fold((error) {
+    return either.fold((error) {
       emit(FailureRegisterCourse(error: error));
+      return error.errorMessage;
     }, (response) {
+      isCourseRegistered = true;
       emit(SucessRegisterCourse(registerCourseEntity: response));
       emit(LastUpdateCourse());
+      return null; // success
     });
   }
 
-  void registerSection(String coursecodes, String sectionId) async {
+  Future<String?> registerSection(String coursecodes, String sectionId) async {
     var either = await registerSectionUsecase.invoke(coursecodes, sectionId);
-    either.fold(
-      (error) {
-        emit(FailureRegisterSec(error: error));
-      },
-      (response) {
-        emit(SucessRegisterSec(registerSectionEntity: response));
-        emit(LastUpdateCourse());
-      },
-    );
+    return either.fold((error) {
+      emit(FailureRegisterSec(error: error));
+      return error.errorMessage;
+    }, (response) {
+      emit(SucessRegisterSec(registerSectionEntity: response));
+      emit(LastUpdateCourse());
+      return null; // success
+    });
   }
 
-  void dropCourse(String coursecodes) async {
+  Future<String?> dropCourse(String coursecodes) async {
     var either = await dropCourceUsecase.invoke(coursecodes);
-    either.fold((error) {
+    return either.fold((error) {
       emit(FailureDropCourse(error: error));
+      return error.errorMessage;
     }, (response) {
-      emit(SucessDropCourse(registerCourseEntity: response));
+      emit(SucessDropCourse(dropCourseEntity: response));
       emit(LastUpdateCourse());
+      return null; // success
     });
   }
 }

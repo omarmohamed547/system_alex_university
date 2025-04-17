@@ -8,7 +8,7 @@ import 'package:system_alex_univ/domain/repository/register_student/registerStu_
 class DropCourceUsecase {
   RegisterstudentRepos registerstudentRepos;
   DropCourceUsecase({required this.registerstudentRepos});
-  Future<Either<Failure, RegisterCourseEntity>> invoke(String coursecodes) {
+  Future<Either<Failure, DropCourseEntity>> invoke(String coursecodes) {
     return registerstudentRepos.dropCourse(coursecodes);
   }
 }

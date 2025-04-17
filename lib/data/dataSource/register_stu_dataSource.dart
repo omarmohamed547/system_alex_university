@@ -84,8 +84,7 @@ class RegisterStuDatasourceimp implements RegistertuDatasource {
   }
 
   @override
-  Future<Either<Failure, RegisterCourseDm>> dropCourse(
-      String coursecodes) async {
+  Future<Either<Failure, DropCourseDm>> dropCourse(String coursecodes) async {
     final List<ConnectivityResult> connectivityResult =
         await (Connectivity().checkConnectivity());
     if (connectivityResult.contains(ConnectivityResult.mobile) ||
@@ -94,7 +93,7 @@ class RegisterStuDatasourceimp implements RegistertuDatasource {
         var token = SharedPrefernceUtilis.getData('token');
         var userId = SharedPrefernceUtilis.getData('userId');
         print("token:$token");
-        var response = await apiManager.deleteData(
+        var response = await apiManager.postData(
           body: {"courseCode": coursecodes},
           apiEndpoints: "${ApiEndpoints.dropCourseseStudentndpoint}/$userId",
           headers: {'Authorization': 'Bearer $token'},
@@ -103,7 +102,7 @@ class RegisterStuDatasourceimp implements RegistertuDatasource {
         if (response.statusCode! >= 200 && response.statusCode! < 300) {
           print("response:$response");
 
-          var avliablecourseResponse = RegisterCourseDm.fromJson(response.data);
+          var avliablecourseResponse = DropCourseDm.fromJson(response.data);
           return Right(avliablecourseResponse);
         } else {
           return Left(ServerError(errorMessage: "Failed to drop courses"));

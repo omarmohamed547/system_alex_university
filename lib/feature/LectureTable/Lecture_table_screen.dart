@@ -9,7 +9,12 @@ import 'package:system_alex_univ/feature/home/home_drawer.dart';
 import 'package:system_alex_univ/feature/home/homes_screen.dart';
 import 'package:system_alex_univ/feature/performance/performance_screen.dart';
 
-class LectureTable extends StatelessWidget {
+class LectureTable extends StatefulWidget {
+  @override
+  State<LectureTable> createState() => _LectureTableState();
+}
+
+class _LectureTableState extends State<LectureTable> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -24,87 +29,98 @@ class LectureTable extends StatelessWidget {
           ),
         ),
       ),
-      body: BlocBuilder<HomeViewModel, HomeState>(
-        builder: (context, state) {
-          if (state is LoadingGettimeTable) {
-            return Center(child: CircularProgressIndicator(color: Colors.grey));
-          }
+      body: Column(
+        children: [
+          TitleScreenWithDrawer(
+            scaffoldKey: _scaffoldKey,
+            title: "Lecture Table",
+          ),
+          Expanded(
+            child: BlocBuilder<HomeViewModel, HomeState>(
+              bloc: HomeViewModel.get(context)..getTimeTable(),
+              builder: (context, state) {
+                if (state is LoadingGettimeTable) {
+                  return Center(
+                      child: CircularProgressIndicator(color: Colors.grey));
+                }
 
-          if (state is FailureGettimeTable) {
-            return Center(child: Text('Error: ${state.error}'));
-          }
+                if (state is FailureGettimeTable) {
+                  return Center(child: Text('Error: ${state.error}'));
+                }
 
-          if (state is SucessGettimeTable) {
-            final timetable = state.courseTableEntity.timetable;
+                if (state is SucessGettimeTable) {
+                  final timetable = state.courseTableEntity.timetable;
 
-            if (timetable == null) {
-              return Center(child: Text("No timetable data available"));
-            }
+                  if (timetable == null) {
+                    return Center(child: Text("No timetable data available"));
+                  }
 
-            final List<MapEntry<String, List<DayEntity>?>> days = [
-              MapEntry('SAT', timetable.saturday),
-              MapEntry('SUN', timetable.sunday),
-              MapEntry('MON', timetable.monday),
-              MapEntry('TUE', timetable.tuesday),
-              MapEntry('WED', timetable.wednesday),
-              MapEntry('THU', timetable.thursday),
-              MapEntry('FRI', timetable.friday),
-            ];
+                  final List<MapEntry<String, List<DayEntity>?>> days = [
+                    MapEntry('SAT', timetable.saturday),
+                    MapEntry('SUN', timetable.sunday),
+                    MapEntry('MON', timetable.monday),
+                    MapEntry('TUE', timetable.tuesday),
+                    MapEntry('WED', timetable.wednesday),
+                    MapEntry('THU', timetable.thursday),
+                    MapEntry('FRI', timetable.friday),
+                  ];
 
-            return SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  TitleScreenWithDrawer(
-                    scaffoldKey: _scaffoldKey,
-                    title: "Lecture Table",
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        /// Time header row
-                        Container(
-                          color: Color(0xff83B8FD),
-                          child: Row(
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(
-                                width: 175.w,
-                                child: Container(), // Empty cell for day column
+                              /// Time header row
+                              Container(
+                                color: Color(0xff83B8FD),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 175.w,
+                                      child:
+                                          Container(), // Empty cell for day column
+                                    ),
+                                    ..._timeSlots.map(_timeHeader),
+                                  ],
+                                ),
                               ),
-                              ..._timeSlots.map(_timeHeader),
-                            ],
-                          ),
-                        ),
 
-                        /// Lecture table
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16.h),
-                          child: Table(
-                            border: TableBorder(
-                              horizontalInside: BorderSide(
-                                  color: Colors.grey.shade300, width: 1),
-                              verticalInside: BorderSide(
-                                  color: Colors.grey.shade300, width: 1),
-                            ),
-                            defaultColumnWidth: FixedColumnWidth(175.w),
-                            children: [
-                              for (var dayData in days)
-                                _buildLectureRow(dayData.key, dayData.value),
+                              /// Lecture table
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 16.h),
+                                child: Table(
+                                  border: TableBorder(
+                                    horizontalInside: BorderSide(
+                                        color: Colors.grey.shade300, width: 1),
+                                    verticalInside: BorderSide(
+                                        color: Colors.grey.shade300, width: 1),
+                                  ),
+                                  defaultColumnWidth: FixedColumnWidth(175.w),
+                                  children: [
+                                    for (var dayData in days)
+                                      _buildLectureRow(
+                                          dayData.key, dayData.value),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-            );
-          }
+                  );
+                }
 
-          return Center(child: Text('No lectures available.'));
-        },
+                return Center(child: Text('No lectures available.'));
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

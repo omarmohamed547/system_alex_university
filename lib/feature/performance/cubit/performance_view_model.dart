@@ -9,7 +9,7 @@ class PerformanceViewModel extends Cubit<PerformanceStates> {
   PerformanceViewModel({required this.getPerformanceUsecase})
       : super(LoadingPerformanceState());
   GetPerformanceUsecase getPerformanceUsecase;
-  List<PassedCourseEntity> filteredCoursesList = [];
+  List<PassedCourseEntity> _filteredCourses = [];
 
   static PerformanceViewModel get(context) =>
       BlocProvider.of<PerformanceViewModel>(context);
@@ -20,24 +20,11 @@ class PerformanceViewModel extends Cubit<PerformanceStates> {
     either.fold((error) {
       emit(FailurePerformanceState(error: error));
     }, (response) {
-      filteredCoursesList = response.performance?.passedCourses ?? [];
+      _filteredCourses = response.performance?.passedCourses ?? [];
 
       emit(SuccessPerformanceState(performaceResponseEntity: response));
     });
   }
 
   // Method to handle course search
-  void filterCourses(List<PassedCourseEntity> allCourses, String query) {
-    if (query.isEmpty) {
-      filteredCoursesList = allCourses;
-    } else {
-      filteredCoursesList = allCourses
-          .where((course) =>
-              course.name?.toLowerCase().contains(query.toLowerCase()) ?? false)
-          .toList();
-    }
-
-    // Optionally emit a new state to force rebuild
-    emit(SearchUpdatedState(filteredCoursesList));
-  }
 }

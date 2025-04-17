@@ -122,73 +122,105 @@ class _PerformanceScreenState extends State<PerformanceScreen> {
             borderRadius: BorderRadius.circular(22),
             color: Colors.white,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 16.h),
-                  Text("Education Hours",
-                      style: AppStyle.black24Inter.copyWith(fontSize: 18)),
-                  SizedBox(height: 16.h),
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(8.w),
-                        child: SizedBox(
-                          height: 145.h,
-                          width: 145.w,
-                          child: CircularProgressIndicator(
-                            value: taken / (taken + left),
-                            strokeWidth: 8,
-                            backgroundColor: Colors.grey,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                Color(0xff83B8FD)),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 16.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 16.h),
+                        Text("Education Hours",
+                            style:
+                                AppStyle.black24Inter.copyWith(fontSize: 18)),
+                        SizedBox(height: 16.h),
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(8.w),
+                              child: SizedBox(
+                                height: 145.h,
+                                width: 145.w,
+                                child: CircularProgressIndicator(
+                                  value: taken / (taken + left),
+                                  strokeWidth: 8,
+                                  backgroundColor: Colors.grey,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Color(0xff83B8FD)),
+                                ),
+                              ),
+                            ),
+                            const Icon(Icons.person,
+                                color: Color(0xff83B8FD), size: 40),
+                          ],
+                        ),
+                        SizedBox(height: 6.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.circle,
+                                color: Color(0xff83B8FD), size: 12),
+                            SizedBox(width: 4),
+                            Text("Taken ${taken}H",
+                                style: TextStyle(fontWeight: FontWeight.w500)),
+                            SizedBox(width: 16),
+                            Icon(Icons.circle, color: Colors.grey, size: 12),
+                            SizedBox(width: 4),
+                            Text("Left ${left}H",
+                                style: TextStyle(fontWeight: FontWeight.w500)),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 16.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        SizedBox(height: 40.h),
+                        Text("Year", style: AppStyle.extraBold14Blue),
+                        Text(year,
+                            style: AppStyle.bold38Black.copyWith(fontSize: 13)),
+                        SizedBox(height: 16.h),
+                        Text("CGPA", style: AppStyle.extraBold14Blue),
+                        Text("$cgpa",
+                            style: AppStyle.bold38Black.copyWith(fontSize: 13)),
+                        SizedBox(height: 16.h),
+                        Padding(
+                          padding: EdgeInsets.only(left: 8.w),
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Hours\n',
+                                  style: AppStyle.extraBold14Blue,
+                                ),
+                                TextSpan(
+                                  text: 'registered',
+                                  style: AppStyle.extraBold14Blue,
+                                ),
+                              ],
+                            ),
+                            textAlign: TextAlign.end,
                           ),
                         ),
-                      ),
-                      const Icon(Icons.person,
-                          color: Color(0xff83B8FD), size: 40),
-                    ],
+                        Text("$maxHours",
+                            textAlign: TextAlign.end,
+                            style: AppStyle.bold38Black.copyWith(fontSize: 13)),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 6.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.circle, color: Color(0xff83B8FD), size: 12),
-                      SizedBox(width: 4),
-                      Text("Taken ${taken}H",
-                          style: TextStyle(fontWeight: FontWeight.w500)),
-                      SizedBox(width: 16),
-                      Icon(Icons.circle, color: Colors.grey, size: 12),
-                      SizedBox(width: 4),
-                      Text("Left ${left}H",
-                          style: TextStyle(fontWeight: FontWeight.w500)),
-                    ],
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 40.h),
-                  Text("Year", style: AppStyle.extraBold14Blue),
-                  Text(year,
-                      style: AppStyle.bold38Black.copyWith(fontSize: 13)),
-                  SizedBox(height: 16.h),
-                  Text("CGPA", style: AppStyle.extraBold14Blue),
-                  Text("$cgpa",
-                      style: AppStyle.bold38Black.copyWith(fontSize: 13)),
-                  SizedBox(height: 16.h),
-                  Text("Hours\nregistered", style: AppStyle.extraBold14Blue),
-                  Text("$maxHours",
-                      textAlign: TextAlign.center,
-                      style: AppStyle.bold38Black.copyWith(fontSize: 13)),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
         SizedBox(height: 8.h),

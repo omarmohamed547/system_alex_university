@@ -102,8 +102,8 @@ class _HomesScreenState extends State<HomesScreen> {
                   ),
                 ),
                 Positioned(
-                  left: 20,
-                  top: 320,
+                  left: 20.w,
+                  top: 420.h,
                   child: Row(
                     children: [
                       Text(
@@ -188,7 +188,7 @@ class _HomesScreenState extends State<HomesScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 20.w, top: 40, bottom: 24),
+              padding: EdgeInsets.only(left: 20.w, top: 40.h, bottom: 24.h),
               child: Row(
                 children: [
                   Text(
