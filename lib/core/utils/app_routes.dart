@@ -6,4 +6,6 @@ class AppRoutes {
   static const String registirationScreen = 'RegistirationScreen';
   static const String lectureTableScreen = 'LectureTableScreen';
   static const String performaneScreen = 'PerformaneScreen';
+  static const String examTableScreen = 'ExamTableScreen';
+  static const String profileScreen = 'ProfileScreen';
 }

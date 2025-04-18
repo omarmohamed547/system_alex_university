@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:system_alex_univ/core/utils/app_routes.dart';
 import 'package:system_alex_univ/core/utils/app_style.dart';
 import 'package:system_alex_univ/core/utils/di/di.dart';
 import 'package:system_alex_univ/domain/entites/Course_TimeTable_entity.dart';
@@ -60,11 +61,30 @@ class _HomesScreenState extends State<HomesScreen> {
                 ),
                 Positioned(
                   bottom: 54,
-                  right: -26,
+                  right: -15,
                   child: Image.asset(
                     "assets/images/avatar.png",
                     height: 350.h,
                     width: 230.w,
+                  ),
+                ),
+                Positioned(
+                  top: 90.h,
+                  right: 10.w,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoutes.profileScreen);
+                      print("navigate");
+                    },
+                    child: SizedBox(
+                      width: 43.w,
+                      height: 43.h,
+                      child: CircleAvatar(
+                        child: Image.asset(
+                          "assets/images/avatar.png",
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 Positioned(

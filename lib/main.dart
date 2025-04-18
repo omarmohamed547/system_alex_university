@@ -6,6 +6,7 @@ import 'package:system_alex_univ/core/utils/app_style.dart';
 import 'package:system_alex_univ/core/utils/cache/shared_pref.dart';
 import 'package:system_alex_univ/core/utils/di/di.dart';
 import 'package:system_alex_univ/core/utils/observer.dart';
+import 'package:system_alex_univ/feature/ExamTable/ExamTable_screen.dart';
 import 'package:system_alex_univ/feature/LectureTable/Lecture_table_screen.dart';
 import 'package:system_alex_univ/feature/StartUP_screen.dart';
 import 'package:system_alex_univ/feature/auth/forgetPassword/forget_passordScreen.dart';
@@ -14,6 +15,7 @@ import 'package:system_alex_univ/feature/auth/login/login_screen.dart';
 import 'package:system_alex_univ/feature/home/cubit/home_view_model.dart';
 import 'package:system_alex_univ/feature/home/homes_screen.dart';
 import 'package:system_alex_univ/feature/performance/performance_screen.dart';
+import 'package:system_alex_univ/feature/profile_screen.dart';
 import 'package:system_alex_univ/feature/registiration/cubit/registiration_view_model.dart';
 import 'package:system_alex_univ/feature/registiration/registiration_screen.dart';
 
@@ -26,19 +28,27 @@ void main() async {
 
   Bloc.observer = MyBlocObserver();
   await SharedPrefernceUtilis.init();
-
-  runApp(MultiBlocProvider(providers: [
-    BlocProvider(create: (context) => getIt<LoginViewmodel>()),
-    BlocProvider(create: (context) => getIt<RegistirationnViewModel>()),
-    BlocProvider(create: (context) => getIt<HomeViewModel>()),
-    BlocProvider(
-      create: (context) => getIt<PerformanceViewModel>(),
-    ),
-  ], child: const MyApp()));
+  var token = SharedPrefernceUtilis.getData('token');
+  String intialRoute =
+      token == null ? AppRoutes.startUpScreen : AppRoutes.homeScreen;
+  runApp(MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => getIt<LoginViewmodel>()),
+        BlocProvider(create: (context) => getIt<RegistirationnViewModel>()),
+        BlocProvider(create: (context) => getIt<HomeViewModel>()),
+        BlocProvider(
+          create: (context) => getIt<PerformanceViewModel>(),
+        ),
+      ],
+      child: MyApp(
+        intialRouteName: intialRoute,
+      )));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  String intialRouteName;
+
+  MyApp({super.key, required this.intialRouteName});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +59,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: AppRoutes.startUpScreen,
+          initialRoute: intialRouteName,
           routes: {
             AppRoutes.loginScreen: (context) => LoginScreen(),
             AppRoutes.startUpScreen: (context) => StartUpScreen(),
@@ -58,6 +68,8 @@ class MyApp extends StatelessWidget {
             AppRoutes.registirationScreen: (context) => RegistrationScreen(),
             AppRoutes.lectureTableScreen: (context) => LectureTable(),
             AppRoutes.performaneScreen: (context) => PerformanceScreen(),
+            AppRoutes.examTableScreen: (context) => ExamtableScreen(),
+            AppRoutes.profileScreen: (context) => ProfileScreen(),
           },
         );
       },

@@ -35,6 +35,10 @@ class LoginScreen extends StatelessWidget {
                 SharedPrefernceUtilis.saveData(
                     'token', state.loginModelEntity.token);
                 SharedPrefernceUtilis.saveData(
+                    'username', state.loginModelEntity.user!.name);
+                SharedPrefernceUtilis.saveData(
+                    'email', state.loginModelEntity.user!.email);
+                SharedPrefernceUtilis.saveData(
                     'userId', state.loginModelEntity.user!.id);
                 Navigator.pushReplacementNamed(context, AppRoutes.homeScreen);
               },
