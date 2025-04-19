@@ -78,7 +78,7 @@ class HomeDrawer extends StatelessWidget {
               DrawerItem(
                 icon: Icons.school,
                 text: "Exams Table",
-                route: AppRoutes.homeScreen,
+                route: AppRoutes.examTableScreen,
               ),
               DrawerItem(
                 icon: Icons.chat,
