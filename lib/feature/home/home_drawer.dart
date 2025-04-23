@@ -90,7 +90,7 @@ class HomeDrawer extends StatelessWidget {
               DrawerItem(
                 icon: Icons.message,
                 text: "Chat",
-                route: AppRoutes.homeScreen,
+                route: AppRoutes.chatScreen,
               ),
             ],
           ),

@@ -9,6 +9,7 @@ class custom_elevated_button extends StatelessWidget {
   Function onButtonClicked;
   EdgeInsets? paddingHeight;
   EdgeInsets? paddingContainer;
+  final bool isLoading;
 
   custom_elevated_button({
     required this.onButtonClicked,
@@ -18,6 +19,7 @@ class custom_elevated_button extends StatelessWidget {
     required this.text,
     this.style,
     this.color,
+    this.isLoading = false,
     super.key,
   });
 
@@ -37,9 +39,7 @@ class custom_elevated_button extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16)),
               backgroundColor: color ?? Color(0xff7EB6FF),
               elevation: 0),
-          onPressed: () {
-            onButtonClicked();
-          },
+          onPressed: isLoading ? null : () => onButtonClicked(),
           child: Padding(
             padding:
                 paddingHeight ?? EdgeInsets.symmetric(vertical: height * 0.02),

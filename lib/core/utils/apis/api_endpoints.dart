@@ -1,5 +1,8 @@
 class ApiEndpoints {
   static String loginendpoint = 'api/auth/login';
+  static String resetPassendpoint = 'api/auth/reset-password';
+  static String forgetPassendpoint = 'api/auth/forgot-password';
+
   static String getCoursesendpoint = 'api/admin/courses';
   static String getAvliableCourseseStudentndpoint =
       'api/student/available-courses';

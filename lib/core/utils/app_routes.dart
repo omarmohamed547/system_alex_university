@@ -9,4 +9,9 @@ class AppRoutes {
   static const String examTableScreen = 'ExamTableScreen';
   static const String profileScreen = 'ProfileScreen';
   static const String gpaCalaulator = 'GpaCalaulator';
+  static const String chatScreen = 'ChatScreen';
+
+  static const String complaints = 'Complaints';
+
+  static const String attendceScreen = 'AttendceScreen';
 }

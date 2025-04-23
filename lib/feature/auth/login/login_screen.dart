@@ -121,9 +121,15 @@ class LoginScreen extends StatelessWidget {
                         style: AppStyle.medium12Black,
                       ),
                       InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, AppRoutes.resetPassScreen);
+                        onTap: () async {
+                          try {
+                            await Navigator.pushNamed(
+                                context, AppRoutes.resetPassScreen);
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Error: ${e.toString()}')),
+                            );
+                          }
                         },
                         child: Text(
                           "Reset Password?",

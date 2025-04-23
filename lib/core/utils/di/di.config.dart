@@ -50,6 +50,7 @@ import '../../../domain/repository/register_student/registerStu_repos.dart'
 import '../../../domain/UseCases/auth_useCase.dart' as _i105;
 import '../../../domain/UseCases/drop_cource_useCase.dart' as _i463;
 import '../../../domain/UseCases/drop_secUseCase.dart' as _i5;
+import '../../../domain/UseCases/forget_pass_UseCase.dart' as _i813;
 import '../../../domain/UseCases/get_courses_useCase.dart' as _i461;
 import '../../../domain/UseCases/get_examTable.dart' as _i396;
 import '../../../domain/UseCases/get_performance_useCase.dart' as _i1066;
@@ -58,6 +59,9 @@ import '../../../domain/UseCases/get_time_table_useCase.dart' as _i562;
 import '../../../domain/UseCases/getAvliableCourseStudent.dart' as _i1008;
 import '../../../domain/UseCases/register_course_useCase.dart' as _i15;
 import '../../../domain/UseCases/registerSectionUseCase.dart' as _i722;
+import '../../../domain/UseCases/Reset_pass_UseCase.dart' as _i922;
+import '../../../feature/auth/forgetPassword/cubit/reset_passwordViewModel.dart'
+    as _i64;
 import '../../../feature/auth/login/cubit/login_viewModel.dart' as _i1013;
 import '../../../feature/ExamTable/cubit/examTableViesModel.dart' as _i235;
 import '../../../feature/home/cubit/home_view_model.dart' as _i658;
@@ -98,6 +102,10 @@ extension GetItInjectableX on _i174.GetIt {
         _i92.ProfilePictureDatasourceImpl(apiManager: gh<_i669.ApiManager>()));
     gh.factory<_i105.AuthUsecase>(
         () => _i105.AuthUsecase(authRepos: gh<_i180.AuthRepos>()));
+    gh.factory<_i813.ForgetPassUsecase>(
+        () => _i813.ForgetPassUsecase(authRepos: gh<_i180.AuthRepos>()));
+    gh.factory<_i922.ResetPassUsecase>(
+        () => _i922.ResetPassUsecase(authRepos: gh<_i180.AuthRepos>()));
     gh.factory<_i522.PerformanceRepos>(() => _i466.PerformanceReposImpl(
         performanceDatasource: gh<_i57.PerformanceDatasource>()));
     gh.factory<_i1013.LoginViewmodel>(
@@ -116,6 +124,10 @@ extension GetItInjectableX on _i174.GetIt {
         homeRemotedatasource: gh<_i725.HomeRemotedatasource>()));
     gh.factory<_i396.GetExamTableUsecase>(() =>
         _i396.GetExamTableUsecase(examtableRepos: gh<_i726.ExamtableRepos>()));
+    gh.factory<_i64.ResetPasswordViewModel>(() => _i64.ResetPasswordViewModel(
+          forgetPassUsecase: gh<_i813.ForgetPassUsecase>(),
+          resetPassUsecase: gh<_i922.ResetPassUsecase>(),
+        ));
     gh.factory<_i539.PerformanceViewModel>(() => _i539.PerformanceViewModel(
         getPerformanceUsecase: gh<_i1066.GetPerformanceUsecase>()));
     gh.factory<_i562.GetTimeTableUsecase>(() =>

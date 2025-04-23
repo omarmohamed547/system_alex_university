@@ -11,6 +11,7 @@ import 'package:system_alex_univ/feature/StartUP_screen.dart';
 import 'package:system_alex_univ/feature/auth/forgetPassword/forget_passordScreen.dart';
 import 'package:system_alex_univ/feature/auth/login/cubit/login_viewModel.dart';
 import 'package:system_alex_univ/feature/auth/login/login_screen.dart';
+import 'package:system_alex_univ/feature/chat/chat_screen.dart';
 import 'package:system_alex_univ/feature/home/cubit/home_view_model.dart';
 import 'package:system_alex_univ/feature/home/homes_screen.dart';
 import 'package:system_alex_univ/feature/performance/performance_screen.dart';
@@ -67,7 +68,7 @@ class MyApp extends StatelessWidget {
           routes: {
             AppRoutes.loginScreen: (context) => LoginScreen(),
             AppRoutes.startUpScreen: (context) => StartUpScreen(),
-            AppRoutes.resetPassScreen: (context) => ForgetPassordscreen(),
+            AppRoutes.resetPassScreen: (context) => ForgetPasswordScreen(),
             AppRoutes.homeScreen: (context) => HomesScreen(),
             AppRoutes.registirationScreen: (context) => RegistrationScreen(),
             AppRoutes.lectureTableScreen: (context) => LectureTable(),
@@ -75,6 +76,7 @@ class MyApp extends StatelessWidget {
             AppRoutes.examTableScreen: (context) => ExamtableScreen(),
             AppRoutes.profileScreen: (context) => ProfileScreen(),
             AppRoutes.gpaCalaulator: (context) => GPACalculator(),
+            AppRoutes.chatScreen: (context) => ChatListScreen(),
           },
         );
       },
