@@ -73,21 +73,38 @@ class SectionStudentEntity {
 class RegisterCourseEntity {
   RegisterCourseEntity({
     required this.message,
-    required this.alreadyRegistered,
+    required this.registeredCourses,
+    required this.term,
+    required this.totalCreditHours,
   });
 
   final String? message;
-  final List<String>? alreadyRegistered;
+  final List<String>? registeredCourses;
+  final String? term;
+  final num? totalCreditHours;
 }
 
 class RegisterSectionEntity {
-  RegisterSectionEntity({
-    required this.message,
-    required this.registeredSections,
-  });
+  RegisterSectionEntity(
+      {required this.message,
+      required this.registeredSections,
+      required this.timeConflicts});
 
   final String? message;
   final List<RegisteredSectionEntity>? registeredSections;
+  final List<TimeConflictEntity>? timeConflicts;
+}
+
+class TimeConflictEntity {
+  TimeConflictEntity({
+    required this.courseCode,
+    required this.sectionId,
+    required this.message,
+  });
+
+  final String? courseCode;
+  final String? sectionId;
+  final String? message;
 }
 
 class RegisteredSectionEntity {
@@ -108,4 +125,12 @@ class DropCourseEntity {
 
   final String? message;
   final List<String>? droppedSections;
+}
+
+class DropSecEntity {
+  DropSecEntity({
+    required this.message,
+  });
+
+  final String? message;
 }

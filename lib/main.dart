@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:system_alex_univ/core/utils/app_routes.dart';
-import 'package:system_alex_univ/core/utils/app_style.dart';
 import 'package:system_alex_univ/core/utils/cache/shared_pref.dart';
 import 'package:system_alex_univ/core/utils/di/di.dart';
 import 'package:system_alex_univ/core/utils/observer.dart';
@@ -15,7 +14,9 @@ import 'package:system_alex_univ/feature/auth/login/login_screen.dart';
 import 'package:system_alex_univ/feature/home/cubit/home_view_model.dart';
 import 'package:system_alex_univ/feature/home/homes_screen.dart';
 import 'package:system_alex_univ/feature/performance/performance_screen.dart';
-import 'package:system_alex_univ/feature/profile_screen.dart';
+import 'package:system_alex_univ/feature/profile/cubit/profile_view_model.dart';
+import 'package:system_alex_univ/feature/profile/gpa_calculator.dart';
+import 'package:system_alex_univ/feature/profile/profile_screen.dart';
 import 'package:system_alex_univ/feature/registiration/cubit/registiration_view_model.dart';
 import 'package:system_alex_univ/feature/registiration/registiration_screen.dart';
 
@@ -38,6 +39,9 @@ void main() async {
         BlocProvider(create: (context) => getIt<HomeViewModel>()),
         BlocProvider(
           create: (context) => getIt<PerformanceViewModel>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<ProfileViewModel>(),
         ),
       ],
       child: MyApp(
@@ -70,6 +74,7 @@ class MyApp extends StatelessWidget {
             AppRoutes.performaneScreen: (context) => PerformanceScreen(),
             AppRoutes.examTableScreen: (context) => ExamtableScreen(),
             AppRoutes.profileScreen: (context) => ProfileScreen(),
+            AppRoutes.gpaCalaulator: (context) => GPACalculator(),
           },
         );
       },

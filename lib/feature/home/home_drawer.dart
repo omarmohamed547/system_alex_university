@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:system_alex_univ/core/utils/app_routes.dart';
 import 'package:system_alex_univ/core/utils/app_style.dart';
+import 'package:system_alex_univ/core/utils/cache/shared_pref.dart';
 
 class HomeDrawer extends StatelessWidget {
   final VoidCallback onClose;
@@ -31,7 +32,8 @@ class HomeDrawer extends StatelessWidget {
                   ),
                   SizedBox(height: 4.h),
                   Text(
-                    "Omarmohamed",
+                    SharedPrefernceUtilis.getData("username")?.toString() ??
+                        'No Name',
                     style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
@@ -171,8 +173,10 @@ class ShowHomeDrawer extends StatelessWidget {
 
 class TitleScreenWithDrawer extends StatelessWidget {
   String title;
+  Widget? icon;
   TitleScreenWithDrawer({
     required this.title,
+    this.icon,
     super.key,
     required GlobalKey<ScaffoldState> scaffoldKey,
   }) : _scaffoldKey = scaffoldKey;
@@ -215,7 +219,7 @@ class TitleScreenWithDrawer extends StatelessWidget {
         Positioned(
           top: 50,
           left: 20,
-          child: ShowHomeDrawer(scaffoldKey: _scaffoldKey),
+          child: icon ?? ShowHomeDrawer(scaffoldKey: _scaffoldKey),
         ),
       ],
     );

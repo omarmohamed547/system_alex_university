@@ -7,8 +7,10 @@ class ApiEndpoints {
 
   static String registerCourseseStudentndpoint = 'api/student/register-course';
   static String dropCourseseStudentndpoint = 'api/student/drop-course';
+  static String dropSectionStudentndpoint = 'api/student/drop-section';
 
   static String getCourseseTableendpoint = 'api/student/time-table';
   static String getPerformamceendpoint = 'api/gpa/performance';
   static String getExamTableendpoint = 'api/student/exams';
+  static String getprofilepictureendpoint = 'api/auth/get-profile-picture';
 }

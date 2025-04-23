@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:system_alex_univ/core/utils/app_routes.dart';
 import 'package:system_alex_univ/core/utils/app_style.dart';
+import 'package:system_alex_univ/core/utils/cache/shared_pref.dart';
 import 'package:system_alex_univ/core/utils/di/di.dart';
 import 'package:system_alex_univ/domain/entites/Course_TimeTable_entity.dart';
 import 'package:system_alex_univ/feature/home/AnouncmentsItem.dart';
@@ -12,6 +13,8 @@ import 'package:system_alex_univ/feature/home/cubit/home_view_model.dart';
 import 'package:system_alex_univ/feature/home/home_drawer.dart';
 import 'package:intl/intl.dart';
 import 'package:system_alex_univ/feature/home/scedule_item.dart';
+import 'package:system_alex_univ/feature/profile/cubit/profile_states.dart';
+import 'package:system_alex_univ/feature/profile/cubit/profile_view_model.dart';
 
 class HomesScreen extends StatefulWidget {
   HomesScreen({super.key});
@@ -74,16 +77,29 @@ class _HomesScreenState extends State<HomesScreen> {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, AppRoutes.profileScreen);
-                      print("navigate");
                     },
-                    child: SizedBox(
-                      width: 43.w,
-                      height: 43.h,
-                      child: CircleAvatar(
-                        child: Image.asset(
-                          "assets/images/avatar.png",
-                        ),
-                      ),
+                    child: BlocBuilder<ProfileViewModel, ProfileStates>(
+                      bloc: ProfileViewModel.get(context)..getProfilePicture(),
+                      builder: (context, state) {
+                        if (state is FailureProfilePicture) {
+                          return Center(child: Text(state.error.errorMessage));
+                        } else if (state is SuccessProfilePicture) {
+                          return SizedBox(
+                              width: 43.w,
+                              height: 43.h,
+                              child: ClipOval(
+                                child: Image.network(
+                                  state.profilePictureEntity.profilePicture ??
+                                      "",
+                                  fit: BoxFit.fill,
+                                ),
+                              ));
+                        } else {
+                          return CircularProgressIndicator(
+                            color: Colors.grey,
+                          );
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -98,7 +114,8 @@ class _HomesScreenState extends State<HomesScreen> {
                         style: AppStyle.regular24PacificoBlack,
                       ),
                       Text(
-                        "Omar Mohamed",
+                        SharedPrefernceUtilis.getData("username")?.toString() ??
+                            'No Name',
                         style: AppStyle.regular24PacificoBlack
                             .copyWith(fontSize: 32),
                       )

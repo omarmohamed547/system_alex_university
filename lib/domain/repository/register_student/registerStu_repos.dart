@@ -12,4 +12,6 @@ abstract class RegisterstudentRepos {
       String coursecodes, String sectionId);
 
   Future<Either<Failure, DropCourseEntity>> dropCourse(String coursecodes);
+  Future<Either<Failure, DropSecEntity>> dropSection(
+      String coursecodes, String sectionId);
 }

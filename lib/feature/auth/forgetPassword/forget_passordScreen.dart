@@ -241,13 +241,12 @@ class ForgetPassordscreen extends StatelessWidget {
                       AppStyle.normal14Grey.copyWith(color: Color(0xff9E9E9E)),
                 ),
                 TextButton(
-                  
                   child: Text(
                     "Login",
                     style: AppStyle.medium14Blue,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, AppRoutes.loginScreen);
+                    Navigator.pop(context);
                   },
                 ),
                 SizedBox(

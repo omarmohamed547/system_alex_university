@@ -16,12 +16,14 @@ import '../../../data/dataSource/auth_dataSource_impl.dart' as _i595;
 import '../../../data/dataSource/examTable_dataSource_impl.dart' as _i524;
 import '../../../data/dataSource/home_dataSource_impl.dart' as _i781;
 import '../../../data/dataSource/performance_dataSource_impl.dart' as _i481;
+import '../../../data/dataSource/profile_picture_dataSource_impl.dart' as _i92;
 import '../../../data/dataSource/register_stu_dataSource.dart' as _i11;
 import '../../../data/dataSource/timeTable_dataSource_Impl.dart' as _i1030;
 import '../../../data/repository/auth_repos_impl.dart' as _i870;
 import '../../../data/repository/examTable_repos_impl.dart' as _i946;
 import '../../../data/repository/home_repos_impl.dart' as _i272;
 import '../../../data/repository/performance_repos_impl.dart' as _i466;
+import '../../../data/repository/profile_picture_repos_impl.dart' as _i473;
 import '../../../data/repository/register_stu_repos.dart' as _i797;
 import '../../../data/repository/time_table_repos_Impl.dart' as _i993;
 import '../../../domain/repository/auth/auth_remote_dataSource.dart' as _i285;
@@ -37,15 +39,21 @@ import '../../../domain/repository/home_stu/time_table_repos.dart' as _i473;
 import '../../../domain/repository/performance/performance_dataSource.dart'
     as _i57;
 import '../../../domain/repository/performance/performance_repos.dart' as _i522;
+import '../../../domain/repository/profilePicture/profile_picture_dataSource.dart'
+    as _i505;
+import '../../../domain/repository/profilePicture/profile_picture_repos.dart'
+    as _i840;
 import '../../../domain/repository/register_student/registerStu_dataSource.dart'
     as _i235;
 import '../../../domain/repository/register_student/registerStu_repos.dart'
     as _i165;
 import '../../../domain/UseCases/auth_useCase.dart' as _i105;
 import '../../../domain/UseCases/drop_cource_useCase.dart' as _i463;
+import '../../../domain/UseCases/drop_secUseCase.dart' as _i5;
 import '../../../domain/UseCases/get_courses_useCase.dart' as _i461;
 import '../../../domain/UseCases/get_examTable.dart' as _i396;
 import '../../../domain/UseCases/get_performance_useCase.dart' as _i1066;
+import '../../../domain/UseCases/get_profilePicture.dart' as _i514;
 import '../../../domain/UseCases/get_time_table_useCase.dart' as _i562;
 import '../../../domain/UseCases/getAvliableCourseStudent.dart' as _i1008;
 import '../../../domain/UseCases/register_course_useCase.dart' as _i15;
@@ -55,6 +63,7 @@ import '../../../feature/ExamTable/cubit/examTableViesModel.dart' as _i235;
 import '../../../feature/home/cubit/home_view_model.dart' as _i658;
 import '../../../feature/performance/cubit/performance_view_model.dart'
     as _i539;
+import '../../../feature/profile/cubit/profile_view_model.dart' as _i356;
 import '../../../feature/registiration/cubit/registiration_view_model.dart'
     as _i80;
 import '../apis/api_manager.dart' as _i669;
@@ -85,6 +94,8 @@ extension GetItInjectableX on _i174.GetIt {
         _i11.RegisterStuDatasourceimp(apiManager: gh<_i669.ApiManager>()));
     gh.factory<_i180.AuthRepos>(
         () => _i870.AuthReposImpl(authdataSource: gh<_i285.AuthdataSource>()));
+    gh.factory<_i505.ProfilePictureDatasource>(() =>
+        _i92.ProfilePictureDatasourceImpl(apiManager: gh<_i669.ApiManager>()));
     gh.factory<_i105.AuthUsecase>(
         () => _i105.AuthUsecase(authRepos: gh<_i180.AuthRepos>()));
     gh.factory<_i522.PerformanceRepos>(() => _i466.PerformanceReposImpl(
@@ -99,6 +110,8 @@ extension GetItInjectableX on _i174.GetIt {
         examtableDatasource: gh<_i34.ExamtableDatasource>()));
     gh.factory<_i165.RegisterstudentRepos>(() => _i797.RegisterStuReposimpl(
         registerStuDatasource: gh<_i235.RegistertuDatasource>()));
+    gh.factory<_i840.ProfilePictureRepos>(() => _i473.ProfilePictureReposImpl(
+        profilePictureDatasource: gh<_i505.ProfilePictureDatasource>()));
     gh.factory<_i294.HomeRepos>(() => _i272.HomeReposImpl(
         homeRemotedatasource: gh<_i725.HomeRemotedatasource>()));
     gh.factory<_i396.GetExamTableUsecase>(() =>
@@ -109,6 +122,9 @@ extension GetItInjectableX on _i174.GetIt {
         _i562.GetTimeTableUsecase(timeTableRepos: gh<_i473.TimeTableRepos>()));
     gh.factory<_i461.GetCoursesUsecase>(
         () => _i461.GetCoursesUsecase(homeRepos: gh<_i294.HomeRepos>()));
+    gh.factory<_i514.GetProfilepictureUseCase>(() =>
+        _i514.GetProfilepictureUseCase(
+            profilePictureRepos: gh<_i840.ProfilePictureRepos>()));
     gh.factory<_i1008.GetavliablecoursestudentUseCase>(() =>
         _i1008.GetavliablecoursestudentUseCase(
             registerstudentRepos: gh<_i165.RegisterstudentRepos>()));
@@ -118,18 +134,23 @@ extension GetItInjectableX on _i174.GetIt {
         registerstudentRepos: gh<_i165.RegisterstudentRepos>()));
     gh.factory<_i722.RegisterSectionUsecase>(() => _i722.RegisterSectionUsecase(
         registerstudentRepos: gh<_i165.RegisterstudentRepos>()));
+    gh.factory<_i5.DropSecusecase>(() => _i5.DropSecusecase(
+        registerstudentRepos: gh<_i165.RegisterstudentRepos>()));
     gh.factory<_i235.Examtableviesmodel>(() => _i235.Examtableviesmodel(
         getExamTableUsecase: gh<_i396.GetExamTableUsecase>()));
-    gh.factory<_i80.RegistirationnViewModel>(() => _i80.RegistirationnViewModel(
-          getavliablecoursestudentUseCase:
-              gh<_i1008.GetavliablecoursestudentUseCase>(),
-          registerSectionUsecase: gh<_i722.RegisterSectionUsecase>(),
-          dropCourceUsecase: gh<_i463.DropCourceUsecase>(),
-          registerCourseUsecase: gh<_i15.RegisterCourseUsecase>(),
-        ));
+    gh.factory<_i356.ProfileViewModel>(() => _i356.ProfileViewModel(
+        getProfilepictureUseCase: gh<_i514.GetProfilepictureUseCase>()));
     gh.factory<_i658.HomeViewModel>(() => _i658.HomeViewModel(
           getCoursesUsecase: gh<_i461.GetCoursesUsecase>(),
           getTimeTableUsecase: gh<_i562.GetTimeTableUsecase>(),
+        ));
+    gh.factory<_i80.RegistirationnViewModel>(() => _i80.RegistirationnViewModel(
+          getavliablecoursestudentUseCase:
+              gh<_i1008.GetavliablecoursestudentUseCase>(),
+          dropSecusecase: gh<_i5.DropSecusecase>(),
+          registerSectionUsecase: gh<_i722.RegisterSectionUsecase>(),
+          dropCourceUsecase: gh<_i463.DropCourceUsecase>(),
+          registerCourseUsecase: gh<_i15.RegisterCourseUsecase>(),
         ));
     return this;
   }

@@ -17,6 +17,8 @@ class SucessGetAvaliableCourse extends RegistirationState {
   SucessGetAvaliableCourse({required this.avaliableCoursesForStudentEntity});
 }
 
+class LoadingRegisterCourse extends RegistirationState {}
+
 class FailureRegisterCourse extends RegistirationState {
   Failure error;
   FailureRegisterCourse({required this.error});
@@ -45,6 +47,16 @@ class FailureRegisterSec extends RegistirationState {
 class SucessRegisterSec extends RegistirationState {
   final RegisterSectionEntity registerSectionEntity;
   SucessRegisterSec({required this.registerSectionEntity});
+}
+
+class FailureDropSection extends RegistirationState {
+  Failure error;
+  FailureDropSection({required this.error});
+}
+
+class SucessDropSection extends RegistirationState {
+  final DropSecEntity dropSecEntity;
+  SucessDropSection({required this.dropSecEntity});
 }
 
 class LastUpdateCourse extends RegistirationState {}

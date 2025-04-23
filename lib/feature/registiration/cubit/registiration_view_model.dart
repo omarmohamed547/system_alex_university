@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:system_alex_univ/domain/UseCases/drop_cource_useCase.dart';
+import 'package:system_alex_univ/domain/UseCases/drop_secUseCase.dart';
 import 'package:system_alex_univ/domain/UseCases/getAvliableCourseStudent.dart';
 import 'package:system_alex_univ/domain/UseCases/registerSectionUseCase.dart';
 import 'package:system_alex_univ/domain/UseCases/register_course_useCase.dart';
@@ -13,10 +14,12 @@ class RegistirationnViewModel extends Cubit<RegistirationState> {
   RegisterCourseUsecase registerCourseUsecase;
   RegisterSectionUsecase registerSectionUsecase;
   DropCourceUsecase dropCourceUsecase;
+  DropSecusecase dropSecusecase;
   bool isCourseRegistered = false; // Track course registration status
 
   RegistirationnViewModel(
       {required this.getavliablecoursestudentUseCase,
+      required this.dropSecusecase,
       required this.registerSectionUsecase,
       required this.dropCourceUsecase,
       required this.registerCourseUsecase})
@@ -70,6 +73,18 @@ class RegistirationnViewModel extends Cubit<RegistirationState> {
       return error.errorMessage;
     }, (response) {
       emit(SucessDropCourse(dropCourseEntity: response));
+      emit(LastUpdateCourse());
+      return null; // success
+    });
+  }
+
+  Future<String?> dropSection(String coursecodes, String sectionId) async {
+    var either = await dropSecusecase.invoke(coursecodes, sectionId);
+    return either.fold((error) {
+      emit(FailureDropSection(error: error));
+      return error.errorMessage;
+    }, (response) {
+      emit(SucessDropSection(dropSecEntity: response));
       emit(LastUpdateCourse());
       return null; // success
     });

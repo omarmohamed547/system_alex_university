@@ -18,14 +18,21 @@ class ExamtableScreen extends StatefulWidget {
 
 class _ExamtableScreenState extends State<ExamtableScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  DateTime selectedDay = DateTime(2025, 5, 17); // default selected
+  DateTime? selectedDay; // Make it nullable to handle initial state
   late Examtableviesmodel examtableviesmodel;
 
   @override
   void initState() {
     super.initState();
-    // خلّي Bloc هنا ونديه في BlocProvider
     examtableviesmodel = getIt<Examtableviesmodel>();
+  }
+
+  void _handleInitialDateSelection(List<DateTime> days) {
+    if (selectedDay == null) {
+      setState(() {
+        selectedDay = days.isNotEmpty ? days.first : DateTime.now();
+      });
+    }
   }
 
   @override
@@ -58,14 +65,22 @@ class _ExamtableScreenState extends State<ExamtableScreen> {
                             .toList()
                           ..sort((a, b) => a.compareTo(b));
 
+                        // Handle initial date selection
+                        if (selectedDay == null) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            _handleInitialDateSelection(days);
+                          });
+                        }
+
                         return ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: days.length,
                           itemBuilder: (context, index) {
                             final day = days[index];
-                            final isSelected = selectedDay.year == day.year &&
-                                selectedDay.month == day.month &&
-                                selectedDay.day == day.day;
+                            final isSelected = selectedDay != null &&
+                                selectedDay!.year == day.year &&
+                                selectedDay!.month == day.month &&
+                                selectedDay!.day == day.day;
 
                             return GestureDetector(
                               onTap: () {
@@ -145,11 +160,14 @@ class _ExamtableScreenState extends State<ExamtableScreen> {
                   } else if (state is SucessGetExamTable) {
                     final examList = state.examTableEntity.exams ?? [];
 
+                    // Use selectedDay or fallback to today if still null
+                    final currentDay = selectedDay ?? DateTime.now();
+
                     final examsForSelectedDay = examList
                         .where((exam) =>
-                            exam.date?.day == selectedDay.day &&
-                            exam.date?.month == selectedDay.month &&
-                            exam.date?.year == selectedDay.year)
+                            exam.date?.day == currentDay.day &&
+                            exam.date?.month == currentDay.month &&
+                            exam.date?.year == currentDay.year)
                         .toList();
 
                     return SingleChildScrollView(
@@ -161,7 +179,7 @@ class _ExamtableScreenState extends State<ExamtableScreen> {
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
                             child: Text(
                               DateFormat('EEEE, dd MMMM yyyy')
-                                  .format(selectedDay),
+                                  .format(currentDay),
                               style: TextStyle(
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.w600,

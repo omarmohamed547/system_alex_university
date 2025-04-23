@@ -106,17 +106,20 @@ class SectionStudentDm extends SectionStudentEntity {
 }
 
 class RegisterCourseDm extends RegisterCourseEntity {
-  RegisterCourseDm({
-    super.message,
-    super.alreadyRegistered,
-  });
+  RegisterCourseDm(
+      {super.message,
+      super.term,
+      super.totalCreditHours,
+      super.registeredCourses});
 
   factory RegisterCourseDm.fromJson(Map<String, dynamic> json) {
     return RegisterCourseDm(
       message: json["message"],
-      alreadyRegistered: json["alreadyRegistered"] == null
+      registeredCourses: json["registeredCourses"] == null
           ? []
-          : List<String>.from(json["alreadyRegistered"]!.map((x) => x)),
+          : List<String>.from(json["registeredCourses"]!.map((x) => x)),
+      term: json["term"],
+      totalCreditHours: json["totalCreditHours"],
     );
   }
 }
@@ -125,10 +128,15 @@ class RegisterSectionDm extends RegisterSectionEntity {
   RegisterSectionDm({
     super.message,
     super.registeredSections,
+    super.timeConflicts,
   });
 
   factory RegisterSectionDm.fromJson(Map<String, dynamic> json) {
     return RegisterSectionDm(
+      timeConflicts: json["timeConflicts"] == null
+          ? []
+          : List<TimeConflictDm>.from(
+              json["timeConflicts"]!.map((x) => TimeConflictDm.fromJson(x))),
       message: json["message"],
       registeredSections: json["registeredSections"] == null
           ? []
@@ -136,6 +144,28 @@ class RegisterSectionDm extends RegisterSectionEntity {
               .map((x) => RegisteredSection.fromJson(x))),
     );
   }
+}
+
+class TimeConflictDm extends TimeConflictEntity {
+  TimeConflictDm({
+    super.courseCode,
+    super.sectionId,
+    super.message,
+  });
+
+  factory TimeConflictDm.fromJson(Map<String, dynamic> json) {
+    return TimeConflictDm(
+      courseCode: json["courseCode"],
+      sectionId: json["sectionId"],
+      message: json["message"],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        "courseCode": courseCode,
+        "sectionId": sectionId,
+        "message": message,
+      };
 }
 
 class RegisteredSection extends RegisteredSectionEntity {
@@ -164,6 +194,18 @@ class DropCourseDm extends DropCourseEntity {
       droppedSections: json["droppedSections"] == null
           ? []
           : List<String>.from(json["droppedSections"]!.map((x) => x)),
+    );
+  }
+}
+
+class DropSecDm extends DropSecEntity {
+  DropSecDm({
+    super.message,
+  });
+
+  factory DropSecDm.fromJson(Map<String, dynamic> json) {
+    return DropSecDm(
+      message: json["message"],
     );
   }
 }

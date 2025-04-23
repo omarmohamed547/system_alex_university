@@ -8,4 +8,5 @@ class AppRoutes {
   static const String performaneScreen = 'PerformaneScreen';
   static const String examTableScreen = 'ExamTableScreen';
   static const String profileScreen = 'ProfileScreen';
+  static const String gpaCalaulator = 'GpaCalaulator';
 }

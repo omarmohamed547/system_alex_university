@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:system_alex_univ/core/utils/app_routes.dart';
 import 'package:system_alex_univ/core/utils/app_style.dart';
 import 'package:system_alex_univ/core/utils/cache/shared_pref.dart';
+import 'package:system_alex_univ/feature/profile/cubit/profile_states.dart';
+import 'package:system_alex_univ/feature/profile/cubit/profile_view_model.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -79,29 +82,27 @@ class ProfileScreen extends StatelessWidget {
                 // Profile Avatar
                 Positioned(
                   bottom: 30.h, // Adjusted position
-                  child: Container(
-                    width: 125.w,
-                    height: 125.h,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 4.w,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 8.r,
-                          spreadRadius: 2.r,
-                        ),
-                      ],
-                    ),
-                    child: ClipOval(
-                      child: Image.asset(
-                        "assets/images/Rectangle 151.png",
-                        fit: BoxFit.cover,
-                      ),
+                  child: SizedBox(
+                    width: 140.w,
+                    height: 140.h,
+                    child: BlocBuilder<ProfileViewModel, ProfileStates>(
+                      bloc: ProfileViewModel.get(context)..getProfilePicture(),
+                      builder: (context, state) {
+                        if (state is FailureProfilePicture) {
+                          return Center(child: Text(state.error.errorMessage));
+                        } else if (state is SuccessProfilePicture) {
+                          return ClipOval(
+                            child: Image.network(
+                              state.profilePictureEntity.profilePicture ?? "",
+                              fit: BoxFit.fill,
+                            ),
+                          );
+                        } else {
+                          return CircularProgressIndicator(
+                            color: Colors.grey,
+                          );
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -150,7 +151,13 @@ class ProfileScreen extends StatelessWidget {
                       _buildMenuItem('Bylaw course', Icons.book),
                       _buildMenuItem('My complaints', Icons.report_problem),
                       _buildMenuItem('Academic fee', Icons.school),
-                      _buildMenuItem('GPA calculator', Icons.calculate),
+                      _buildMenuItem(
+                        'GPA calculator',
+                        Icons.calculate,
+                        onTap: () {
+                          Navigator.pushNamed(context, AppRoutes.gpaCalaulator);
+                        },
+                      ),
                       SizedBox(height: 16.h),
                       _buildMenuItem(
                         'Logout Account',
